@@ -1,0 +1,669 @@
+
+<c-container>
+    <c-tabs [activeItemKey]="0" >
+        <c-tabs-list variant="pills">
+          <button cTab [itemKey]="0">Grammer</button>
+          <button cTab [itemKey]="1">Keywords</button>
+          <button cTab [itemKey]="2">Quiz</button>
+          <button cTab [itemKey]="3" >Story</button>
+        </c-tabs-list>
+        <c-tabs-content>
+          <c-tab-panel class="p-3" [itemKey]="0" >
+            <div class="container mt-5">
+                <h2 class="text-center mb-4">Grammer</h2>
+                
+                <!-- Search bar with filter dropdown -->
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Search lessons..." [(ngModel)]="searchText">
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" type="button">Search</button>
+                  </div>
+                  
+                 
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-4">
+                    <button [cModalToggle]="verticallyCenteredModalCreateGrammer.id" cButton >Create Grammer</button>
+                  </div>
+                </div>
+                <br>
+                <!-- Lesson cards -->
+                <div class="row">
+                  <ng-container *ngFor="let grammer of filterLessons()">
+                    <div class="col-md-12">
+            
+                        <h1>Grammar List</h1>
+                  
+                        <table class="table table-striped">
+                  
+                          <thead>
+                  
+                            <tr>
+                  
+                              <th>Grammar ID</th>
+                  
+                              <th>Topic</th>
+                  
+                              <th>Header</th>
+                  
+                              <th>Example</th>
+                  
+                              <th>Description</th>
+                  
+                              <th>Tutorial ID</th>
+                              
+                  
+                            </tr>
+                  
+                          </thead>
+                  
+                          <tbody>
+                  
+                            <tr *ngFor="let grammar of filterLessons()">
+                  
+                              <td>{{ grammar.grammar_id }}</td>
+                  
+                              <td>{{ grammar.topic }}</td>
+                  
+                              <td>{{ grammar.header }}</td>
+                  
+                              <td>{{ grammar.example }}</td>
+                  
+                              <td>{{ grammar.description }}</td>
+                  
+                              <td>{{ grammar.tutorialId }}</td>
+                              <td> <button class="btn btn-primary" [cModalToggle]="verticallyCenteredModalEditGrammer.id" cButton (click)="editGrammer(grammar.grammar_id )">Edit</button></td>
+                              <td> <button class="btn btn-danger" type="button" (click)="deleteGrammer(grammar.grammar_id)">Delete</button></td>
+                  
+                            </tr>
+                  
+                          </tbody>
+                  
+                        </table>
+                  
+                      </div>
+                  </ng-container>
+                  <div *ngIf="filterLessons().length === 0" class="col-md-12 text-center">
+                    <p>No lessons found</p>
+                  </div>
+                </div>
+              
+                <!-- Pagination -->
+                <nav aria-label="Page navigation">
+                  <ul class="pagination justify-content-center mt-4">
+                    <li class="page-item" [class.disabled]="currentPage === 1">
+                      <a class="page-link" href="#" (click)="prevPage()" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item" *ngFor="let page of getPages()" [class.active]="page === currentPage">
+                      <a class="page-link" href="#" (click)="currentPage = page">{{ page }}</a>
+                    </li>
+                    <li class="page-item" [class.disabled]="currentPage === totalPages">
+                      <a class="page-link" href="#" (click)="nextPage()" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+          </c-tab-panel>
+          <c-tab-panel class="p-3" [itemKey]="1">
+            <div class="container mt-5">
+              <h2 class="text-center mb-4">Keyword</h2>
+              
+              <!-- Search bar with filter dropdown -->
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search lessons..." [(ngModel)]="searchTextKeyword">
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="button">Search</button>
+                </div>
+                
+                <!-- Filter dropdown -->
+                
+              </div>
+              
+              <div class="row">
+                <div class="col-md-4">
+                  <button [cModalToggle]="verticallyCenteredModalCreateKeyword.id" cButton (click)="createKeyword()">Create keywords</button>
+                </div>
+              </div>
+              <br>
+              <!-- Lesson cards -->
+              <div class="row">
+                
+                  <div class="col-md-12">
+          
+                      <h1>Grammar List</h1>
+                
+                      <table class="table table-striped">
+                
+                        <thead>
+                
+                          <tr>
+                
+                            <th>keyword ID</th>
+                
+                            <th>text</th>
+                
+                            <th>description</th>
+                
+                            <th>type</th>
+                
+                            <th>level</th>
+                
+                            <th>Tutorial ID</th>
+                            
+                
+                          </tr>
+                
+                        </thead>
+                
+                        <tbody>
+                
+                          <tr *ngFor="let keyword of filterLessonsKeyword()">
+                
+                            <td>{{ keyword.keyword_id }}</td>
+                
+                            <td>{{ keyword.text }}</td>
+                
+                            <td>{{ keyword.description }}</td>
+                
+                            <td>{{ keyword.type }}</td>
+                
+                            <td>{{ keyword.level }}</td>
+                
+                            <td>{{ keyword.tutorialId }}</td>
+                            <td> <button [cModalToggle]="verticallyCenteredModalEditKeyword.id" cButton (click)="editKeyword(keyword.keyword_id )">Edit</button></td>
+                            <td> <button class="btn btn-danger" type="button" (click)="deleteKeyword(keyword.keyword_id)">Delete</button></td>
+                
+                          </tr>
+                
+                        </tbody>
+                
+                      </table>
+                
+                    </div>
+               
+                <div *ngIf="filterLessonsKeyword().length === 0" class="col-md-12 text-center">
+                  <p>No lessons found</p>
+                </div>
+              </div>
+            
+              <!-- Pagination -->
+              <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mt-4">
+                  <li class="page-item" [class.disabled]="currentPageKeyword === 1">
+                    <a class="page-link" href="#" (click)="prevPageKeyword()" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item" *ngFor="let page of getPagesKeyword()" [class.active]="page === currentPageKeyword">
+                    <a class="page-link" href="#" (click)="currentPageKeyword = page">{{ page }}</a>
+                  </li>
+                  <li class="page-item" [class.disabled]="currentPageKeyword === totalPagesKeyword">
+                    <a class="page-link" href="#" (click)="nextPageKeyword()" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </c-tab-panel>
+          <c-tab-panel class="p-3" [itemKey]="2">
+            
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Quiz</h2>
+    
+    <!-- Search bar with filter dropdown -->
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Search lessons..." [(ngModel)]="searchText">
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="button">Search</button>
+      </div>
+      
+     
+    </div>
+    
+    <div class="row">
+      <div class="col-md-4">
+        <button [cModalToggle]="verticallyCenteredModalAddQuiz.id" cButton >Create Quiz</button>
+      </div>
+    </div>
+    <br>
+    <!-- Lesson cards -->
+    <div class="row">
+      
+        <div class="col-md-12">
+
+            <h1>Quiz List</h1>
+      
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Question ID</th>
+                    <th>Text</th>
+                    <th>Choices</th>
+                    <th>Answer</th>
+                    <th>Quiz ID</th>
+                    <th>Code</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let question of quizData?.questions">
+                    <td>{{ question.id }}</td>
+                    <td>{{ question.text }}</td>
+                    <td>
+                      <ul>
+                        <li *ngFor="let choice of question.choices">{{ choice }}</li>
+                      </ul>
+                    </td>
+                    <td>{{ question.answer }}</td>
+                    <td>{{ question.quizId }}</td>
+                    <td>{{ question.code }}</td>
+                    <td><button [cModalToggle]="verticallyCenteredModalEditQuiz.id" cButton (click)="editQuiz(quizData?.id)">Edit</button></td>
+                    <td><button class="btn btn-danger" type="button" (click)="deleteQuiz(quizData?.id)">Delete</button></td>
+                  </tr>
+                </tbody>
+              </table>
+      
+          </div>
+     
+      
+    </div>
+  
+   
+  </div>
+          </c-tab-panel>
+          <c-tab-panel class="p-3" [itemKey]="3">
+            <div class="container mt-5">
+              <h2 class="text-center mb-4">Stories</h2>
+              
+              <!-- Search bar with filter dropdown -->
+              <div class="input-group mb-3">
+               
+                
+                <!-- Filter dropdown -->
+               
+              </div>
+              
+              <div class="row">
+                <div class="col-md-4">
+                  <button [cModalToggle]="verticallyCenteredModalAddStory.id" cButton (click)="createStory()">Create story </button>
+                </div>
+              </div>
+              <br>
+              <!-- Lesson cards -->
+              <div class="row">
+                <ng-container >
+                  <div class="col-md-12">
+          
+                      <h1>Story List</h1>
+                
+                      <table class="table table-striped">
+                
+                        <thead>
+                
+                          <tr>
+                
+                              <th> ID</th>
+                            <th>Tutorial ID</th>
+                
+                            <th>Name</th>
+                            <th>Paragraph <th>
+                            <th>translation <th>
+                
+                
+                            
+                            
+                
+                          </tr>
+                
+                        </thead>
+                
+                        <tbody>
+                
+                          <tr >
+                
+                            <td>{{ story?.id }}</td>
+                            <td>{{ story?.tutorialId }}</td>
+                
+                            <td>{{ story?.name }}</td>
+                
+                            <td>{{ story?.paragraph }}</td>
+                            <td>{{ story?.translation }}</td>
+                
+                            <td> <button [cModalToggle]="verticallyCenteredModalEditStory.id" cButton (click)="editStory(story.id )">Edit</button></td>
+                            <td> <button class="btn btn-danger" type="button" (click)="deleteStory(story.id)">Delete</button></td>
+                
+                          </tr>
+                
+                        </tbody>
+                
+                      </table>
+                
+                    </div>
+                </ng-container>
+              
+              </div>
+            
+              <!-- Pagination -->
+            
+            </div>
+          </c-tab-panel>
+        </c-tabs-content>
+      </c-tabs>
+</c-container>
+
+
+
+
+<!--//////////////////////////////////////////////////////////////////////add grammer//////////////////////////////////////////////////////////////// -->
+<c-modal #verticallyCenteredModalCreateGrammer alignment="center" id="verticallyCenteredModalCreateGrammer">
+  <c-modal-header>
+    <h5 cModalTitle>Add Grammer</h5>
+    <button [cModalToggle]="verticallyCenteredModalCreateGrammer.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form #myForm="ngForm" (ngSubmit)="createGrammer()" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="topic" class="form-label">Topic</label>
+        <textarea class="form-control" id="topic" name="topic" [(ngModel)]="grammarData.topic" required #topic="ngModel"></textarea>
+        <div *ngIf="topic.invalid && (topic.dirty || topic.touched)" class="invalid-feedback">
+          Topic is required.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="header" class="form-label">Header</label>
+        <textarea class="form-control" id="header" name="header" [(ngModel)]="grammarData.header" required #header="ngModel"></textarea>
+        <div *ngIf="header.invalid && (header.dirty || header.touched)" class="invalid-feedback">
+          Header is required.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="example" class="form-label">Example</label>
+        <textarea class="form-control" id="example" name="example" [(ngModel)]="grammarData.example" required #example="ngModel"></textarea>
+        <div *ngIf="example.invalid && (example.dirty || example.touched)" class="invalid-feedback">
+          Example is required.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" [(ngModel)]="grammarData.description" required #description="ngModel"></textarea>
+        <div *ngIf="description.invalid && (description.dirty || description.touched)" class="invalid-feedback">
+          Description is required.
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </c-modal-body>
+  
+</c-modal>
+<!--//////////////////////////////////////////////////////////////////////edit grammer ////////////////////////////////////////////////////////////////-->
+
+
+<c-modal #verticallyCenteredModalEditGrammer alignment="center" id="verticallyCenteredModalEditGrammer">
+  <c-modal-header>
+    <h5 cModalTitle>Edit  Grammer</h5>
+    <button [cModalToggle]="verticallyCenteredModalEditGrammer.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form (ngSubmit)="onsubmitEditGrammer()">
+      <div class="form-group">
+          <label for="topic">topic</label>
+          <input type="text" class="form-control" id="topic" name="topic" [(ngModel)]="formDataGrammer.topic">
+        </div>
+    
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="form-control" id="description" name="description" [(ngModel)]="formDataGrammer.description"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="header">header</label>
+      <input type="text" class="form-control" id="header" name="header" [(ngModel)]="formDataGrammer.header">
+    </div>
+   
+ 
+    <div class="form-group">
+      <label for="example">example</label>
+      <input type="text" class="form-control" id="example" name="example" [(ngModel)]="formDataGrammer.example">
+    </div>
+   
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+  </c-modal-body>
+
+</c-modal>
+
+
+<!--/////////////////////////////Add Keywords//////////////////////////////////////////////////////-->
+
+
+<c-modal #verticallyCenteredModalCreateKeyword alignment="center" id="verticallyCenteredModalCreateKeyword">
+  <c-modal-header>
+    <h5 cModalTitle>Create Keyword</h5>
+    <button [cModalToggle]="verticallyCenteredModalCreateKeyword.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    
+    <form [formGroup]="keywordForm" (ngSubmit)="onsubmitCreateKeyword()" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="text" class="form-label">Text</label>
+        <textarea class="form-control" id="text" formControlName="text" rows="3" required></textarea>
+        
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" formControlName="description" rows="3" required></textarea>
+        
+      </div>
+
+      <div class="mb-3">
+        <label for="type" class="form-label">Type</label>
+        <textarea class="form-control" id="type" formControlName="type" rows="3" required></textarea>
+      
+      </div>
+
+      <div class="mb-3">
+        <label for="level" class="form-label">Level</label>
+        <textarea class="form-control" id="level" formControlName="level" rows="3" required></textarea>
+       
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </c-modal-body>
+  
+</c-modal>
+
+<!--//////////////////////////////////////////////////Edit keyword///////////////////////-->
+
+
+<c-modal #verticallyCenteredModalEditKeyword alignment="center" id="verticallyCenteredModalEditKeyword">
+  <c-modal-header>
+    <h5 cModalTitle>Modal title</h5>
+    <button [cModalToggle]="verticallyCenteredModalEditKeyword.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form (ngSubmit)="onsubmitEditKeyword()">
+      <div class="form-group">
+          <label for="text">Text</label>
+          <input type="text" class="form-control" id="text" name="text" [(ngModel)]="FormDataKeyword.text">
+        </div>
+    
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="form-control" id="description" name="description" [(ngModel)]="FormDataKeyword.description"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="type">Type</label>
+      <input type="text" class="form-control" id="type" name="type" [(ngModel)]="FormDataKeyword.type">
+    </div>
+   
+ 
+    <div class="form-group">
+      <label for="level">Level</label>
+      <input type="text" class="form-control" id="level" name="level" [(ngModel)]="FormDataKeyword.level">
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+  </c-modal-body>
+
+</c-modal>
+
+
+<!--///////////////////////add Quiz///////////////////////-->
+
+
+<c-modal #verticallyCenteredModalAddQuiz alignment="center" id="verticallyCenteredModalAddQuiz">
+  <c-modal-header>
+    <h5 cModalTitle>Add Quiz</h5>
+    <button [cModalToggle]="verticallyCenteredModalAddQuiz.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form #myForm="ngForm" (ngSubmit)="onSubmitAddQuiz()" class="needs-validation" novalidate>
+      <div>
+        <div *ngFor="let question of quiz.questions; let i = index">
+          <h4>Question {{i+1}}</h4>
+          
+          <div class="mb-3">
+            <label class="form-label" for="question-{{i}}-text" >Text</label>
+            <textarea class="form-control" id="question-{{i}}-text" [(ngModel)]="question.text" rows="3" name="question.text"></textarea>
+          </div>
+
+
+          
+  
+          <div class="mb-3">
+            <label class="form-label" for="question-{{i}}-choices">Choices</label>
+            <div>
+              <div *ngFor="let choice of question.choices; let j = index">
+                <textarea class="form-control" id="question-{{i}}-choice-{{j}}" [(ngModel)]="question.choices[j]" rows="3" name="question.choices[j]"></textarea>
+              </div>
+              <button class="btn btn-primary "type="button" (click)="addChoice(i)">Add Choice</button>
+              <button class="btn btn-primary" type="button" (click)="removeChoice(i)">Remove Last Choice</button>
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label class="form-label" for="question-{{i}}-answer">Answer</label>
+            <textarea class="form-control" id="question-{{i}}-answer" [(ngModel)]="question.answer" rows="3" name="question.answer"></textarea>
+          </div>
+  
+          <button class="btn btn-danger " type="button" (click)="removeQuestion(i)">Remove Question</button>
+        </div>
+        <br>
+        <button class="btn btn-primary " type="button" (click)="addQuestion()">Add Question</button>
+      </div>
+      <div class="text-center">
+      <button class="btn btn-primary  " type="submit" class="btn btn-primary">Submit</button>
+    </div>
+    </form>
+  </c-modal-body>
+  
+</c-modal>
+<!--//////////////////////// edit Quiz////////////////////////-->
+
+
+<c-modal #verticallyCenteredModalEditQuiz alignment="center" id="verticallyCenteredModalEditQuiz">
+  <c-modal-header>
+    <h5 cModalTitle>Modal title</h5>
+    <button [cModalToggle]="verticallyCenteredModalEditQuiz.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form>
+      <div *ngFor="let question of quizEdit.questions; let i = index">
+        <div class="form-group">
+          <label for="questionText{{i}}">Question Text</label>
+          <input type="text" class="form-control" id="questionText{{i}}" [(ngModel)]="quizEdit.questions[i].text" name="questionText{{i}}">
+        </div>
+        <div class="form-group">
+          <label for="questionChoices{{i}}">Question Choices</label>
+          <input type="text" class="form-control" id="questionChoices{{i}}-0" [(ngModel)]="quizEdit.questions[i].choices[0]" name="questionChoices{{i}}-0">
+          <input type="text" class="form-control" id="questionChoices{{i}}-1" [(ngModel)]="quizEdit.questions[i].choices[1]" name="questionChoices{{i}}-1">
+          <input type="text" class="form-control" id="questionChoices{{i}}-2" [(ngModel)]="quizEdit.questions[i].choices[2]" name="questionChoices{{i}}-2">
+        </div>
+        <div class="form-group">
+          <label for="questionAnswer{{i}}">Question Answer</label>
+          <input type="text" class="form-control" id="questionAnswer{{i}}" [(ngModel)]="quizEdit.questions[i].answer" name="questionAnswer{{i}}">
+        </div>
+        <button type="button" class="btn btn-danger" (click)="removeQuestionEdit(i)">Remove Question</button>
+      </div>
+      <button type="button" class="btn btn-primary" (click)="addQuestionEdit()">Add Question</button>
+      <button type="submit" class="btn btn-success" (click)="onSubmitEditQuiz()">Submit</button>
+    </form>
+  </c-modal-body>
+  
+</c-modal>
+<!--/////////////////////////////////add story ///////////////////////////-->
+
+
+<c-modal #verticallyCenteredModalAddStory alignment="center" id="verticallyCenteredModalAddStory">
+  <c-modal-header>
+    <h5 cModalTitle>Add Story</h5>
+    <button [cModalToggle]="verticallyCenteredModalAddStory.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+
+          <form #myForm="ngForm" (ngSubmit)="onSubmitAddStory()" class="needs-validation" novalidate>
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="name" name="name" [(ngModel)]="storyAdd.name" required #name="ngModel">
+              <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+                Name is required.
+              </div>
+            </div>
+    
+            <div class="mb-3">
+              <label for="paragraph" class="form-label">Paragraph</label>
+              <textarea class="form-control" id="paragraph" name="paragraph" [(ngModel)]="storyAdd.paragraph" required #paragraph="ngModel"></textarea>
+              <div *ngIf="paragraph.invalid && (paragraph.dirty || paragraph.touched)" class="invalid-feedback">
+                Paragraph is required.
+              </div>
+            </div>
+    
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        
+  </c-modal-body>
+
+</c-modal>
+
+<!--///////////////////////////////////Edit story /////////////////////////////////-->
+
+
+<c-modal #verticallyCenteredModalEditStory alignment="center" id="verticallyCenteredModalEditStory">
+  <c-modal-header>
+    <h5 cModalTitle>Modal title</h5>
+    <button [cModalToggle]="verticallyCenteredModalEditStory.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form (ngSubmit)="onSubmitEditStory()">
+      <div class="form-group">
+          <label for="name">name</label>
+          <input type="text" class="form-control" id="name" name="name" [(ngModel)]="FormDataStory.name">
+        </div>
+    
+    <div class="form-group">
+      <label for="paragraph">paragraph</label>
+      <textarea class="form-control" id="paragraph" name="paragraph" [(ngModel)]="FormDataStory.paragraph"></textarea>
+    </div>
+    
+   
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+  </c-modal-body>
+ 
+</c-modal>
