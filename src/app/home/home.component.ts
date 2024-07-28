@@ -29,7 +29,7 @@ selectedCategory: string = '';
   // Pagination methods
   constructor(private formBuilder: FormBuilder,private router: Router,private http: HttpClient,private back:BackendServiceService) { 
     this.lessons = [];
-    
+   
   }
 
   nextPage(): void {
@@ -58,7 +58,7 @@ selectedCategory: string = '';
 addLesson(id:any){
    this.back.tutotrialid = id
    console.log(this.back.tutotrialid)
-    this.router.navigate(['/add-lesson']);
+   this.router.navigate(['Home']);
   
 }
 filterByCategory(category:string): void{
@@ -73,6 +73,7 @@ filterByCategory(category:string): void{
 
 
   ngOnInit(): void {
+    this.back.isLogin =  true
     this.http.get<any[]>('http://localhost:8080/api/tutorials')
     .subscribe(
       (response: any[]) => {
@@ -113,7 +114,7 @@ filterByCategory(category:string): void{
           console.log(this.back.tutotrialid)
           console.log('API Response:', response);
           // Handle response as needed
-          window.location.reload();
+          this.router.navigate(['Home']);
           
         },
         error => {

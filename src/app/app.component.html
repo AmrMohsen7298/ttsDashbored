@@ -4,8 +4,8 @@
    
     
       <c-navbar-nav class="me-auto mb-2 mb-lg-0">
-        <a  cNavLink routerLink="./">Home</a>
-        <a cNavLink routerLink="./" >User Mangement</a>
+        <a *ngIf="back.isLogin"  cNavLink routerLink="./Home">Home</a>
+        <a cNavLink  >User Mangement</a>
     
       </c-navbar-nav>
     

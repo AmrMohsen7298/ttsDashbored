@@ -11,5 +11,6 @@ export class BackendServiceService {
   quizquestionslength=1
   quizId:any
   storyid:any
+  isLogin:boolean = false
   constructor() { }
 }

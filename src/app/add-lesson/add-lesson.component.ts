@@ -364,7 +364,7 @@ debugger
       console.log('API Response:', response);
       // Handle response as needed
      
-      window.location.reload();
+      this.router.navigate(['Home']);
     },
     error => {
       console.error('API Error:', error);
@@ -409,7 +409,7 @@ onsubmitEditGrammer()
         
         console.log('API Response:', response);
         // Handle response as needed
-        window.location.reload();
+        this.router.navigate(['Home']);
        
       },
       error => {
@@ -430,7 +430,7 @@ this.http.delete<any[]>('http://localhost:8080/api/grammars/'+id)
 .subscribe(
   (response: any[]) => {
     console.log(response)
-    this.router.navigate(['/add-lesson']);
+    this.router.navigate(['Home']);
   },
   (error) => {
     console.error('Error fetching lessons:', error);
@@ -465,7 +465,7 @@ deleteKeyword(id:any)
   .subscribe(
     (response: any[]) => {
       console.log(response)
-      this.router.navigate(['/add-lesson']);
+      this.router.navigate(['Home']);
     },
     (error) => {
       console.error('Error fetching lessons:', error);
@@ -491,7 +491,7 @@ onsubmitCreateKeyword(){
         
         console.log('API Response:', response);
         // Handle response as needed
-        window.location.reload();
+        this.router.navigate(['Home']);
        
         
       },
@@ -525,7 +525,7 @@ onsubmitEditKeyword(){
           console.log('API Response:', response);
           // Handle response as needed
          
-          this.router.navigate(['/add-lesson']);
+          this.router.navigate(['Home']);
         },
         error => {
           console.error('API Error:', error);
@@ -568,7 +568,7 @@ deleteQuiz(id:any)
     (response: any) => {
       
       console.log(response)
-      
+      this.router.navigate(['Home']);
     },
     (error) => {
       console.error('Error fetching lessons:', error);
@@ -622,7 +622,7 @@ response => {
   
   console.log('API Response:', response);
   // Handle response as needed
-  window.location.reload();
+  this.router.navigate(['Home']);
   
 },
 error => {
@@ -666,7 +666,7 @@ onSubmitEditQuiz(){
 this.updateQuiz(this.quizEdit.id, this.quizEdit.code, this.quizEdit.tutorialId, this.quizEdit.questions).subscribe(response => {
 debugger
   console.log(response);
-  this.router.navigate(['']);
+  this.router.navigate(['Home']);
 
 });
 
@@ -720,7 +720,7 @@ deleteStory(id:any)
   .subscribe(
     (response: any[]) => {
       console.log(response)
-      this.router.navigate(['']);
+      this.router.navigate(['Home']);
     },
     (error) => {
       console.error('Error fetching lessons:', error);
@@ -756,7 +756,7 @@ onSubmitEditStory() {
         console.log('API Response:', response);
         // Handle response as needed
        
-        this.router.navigate(['']);
+        this.router.navigate(['Home']);
       },
       error => {
         console.error('API Error:', error);

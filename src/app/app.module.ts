@@ -26,17 +26,21 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AddLessonComponent } from './add-lesson/add-lesson.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { LoginComponent } from './login/login.component';
+import { AlertComponent, AlertHeadingDirective } from '@coreui/angular';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-AddLessonComponent
+AddLessonComponent,
+LoginComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    AlertComponent,
+    AlertHeadingDirective,
     ReactiveFormsModule,
     AppRoutingModule,
     ButtonModule,

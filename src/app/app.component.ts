@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BackendServiceService } from './backend-service.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ttsDashbored';
+  constructor(public back:BackendServiceService){
+
+  }
 }

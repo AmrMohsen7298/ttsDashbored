@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <form cForm class="row g-3">
+        <c-row class="mb-3">
+
+            <h1>Login</h1>
+        </c-row>
+      <c-row class="mb-3">
+        <label cLabel="col" cCol [sm]="2" for="username">
+          Username
+        </label>
+        <c-col [sm]="10">
+          <input cFormControl id="username" type="username" [(ngModel)]="username" name="username" required />
+        </c-col>
+      </c-row>
+      <c-row class="mb-3">
+        <label cLabel="col" cCol [sm]="2" for="password">
+          Password
+        </label>
+        <c-col [sm]="10">
+          <input cFormControl id="password" type="password" [(ngModel)]="password" name="password" required />
+        </c-col>
+      </c-row>
+      <c-alert *ngIf="errorMessagebool" color="danger">
+        <h4>{{errorMessage}}!</h4>
+      </c-alert>
+      <button cButton type="submit" (click)="login()">Sign in</button>
+    </form>
+  </div>
