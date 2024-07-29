@@ -30,7 +30,7 @@
                 <br>
                 <!-- Lesson cards -->
                 <div class="row">
-                  <ng-container *ngFor="let grammer of filterLessons()">
+                  <ng-container >
                     <div class="col-md-12">
             
                         <h1>Grammar List</h1>
@@ -90,23 +90,7 @@
                 </div>
               
                 <!-- Pagination -->
-                <nav aria-label="Page navigation">
-                  <ul class="pagination justify-content-center mt-4">
-                    <li class="page-item" [class.disabled]="currentPage === 1">
-                      <a class="page-link" href="#" (click)="prevPage()" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                      </a>
-                    </li>
-                    <li class="page-item" *ngFor="let page of getPages()" [class.active]="page === currentPage">
-                      <a class="page-link" href="#" (click)="currentPage = page">{{ page }}</a>
-                    </li>
-                    <li class="page-item" [class.disabled]="currentPage === totalPages">
-                      <a class="page-link" href="#" (click)="nextPage()" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
+                
               </div>
           </c-tab-panel>
           <c-tab-panel class="p-3" [itemKey]="1">
@@ -135,7 +119,7 @@
                 
                   <div class="col-md-12">
           
-                      <h1>Grammar List</h1>
+                      <h1>Keywords List</h1>
                 
                       <table class="table table-striped">
                 
@@ -192,23 +176,7 @@
               </div>
             
               <!-- Pagination -->
-              <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center mt-4">
-                  <li class="page-item" [class.disabled]="currentPageKeyword === 1">
-                    <a class="page-link" href="#" (click)="prevPageKeyword()" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li class="page-item" *ngFor="let page of getPagesKeyword()" [class.active]="page === currentPageKeyword">
-                    <a class="page-link" href="#" (click)="currentPageKeyword = page">{{ page }}</a>
-                  </li>
-                  <li class="page-item" [class.disabled]="currentPageKeyword === totalPagesKeyword">
-                    <a class="page-link" href="#" (click)="nextPageKeyword()" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
+             
             </div>
           </c-tab-panel>
           <c-tab-panel class="p-3" [itemKey]="2">
