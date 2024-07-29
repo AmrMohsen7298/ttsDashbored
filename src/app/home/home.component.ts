@@ -58,7 +58,7 @@ selectedCategory: string = '';
 addLesson(id:any){
    this.back.tutotrialid = id
    console.log(this.back.tutotrialid)
-   this.router.navigate(['Home']);
+   this.router.navigate(['add-lesson']);
   
 }
 filterByCategory(category:string): void{
