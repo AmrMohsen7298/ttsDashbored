@@ -161,6 +161,18 @@ totalPagesQuiz: number = 0;
   quiz:any
   quizEdit:any
   story: any ;
+  addquizstatus :boolean = false 
+  addGrammerstatus:boolean = false 
+  addKeywordsstatus:boolean = false 
+  addStorystatus:boolean = false 
+  editquizstatus:boolean = false 
+  editGrammerstatus:boolean = false 
+  editKeywordsstatus:boolean = false 
+  editStorystatus:boolean = false 
+  deletequizstatus:boolean = false 
+  deleteGrammerstatus:boolean = false 
+  deleteKeywordsstatus:boolean = false 
+  deleteStorystatus:boolean = false 
   constructor(private formBuilder: FormBuilder,private router: Router,private http: HttpClient,private back:BackendServiceService) { 
     this.grammer = [];
     this.keywords = [];
@@ -350,6 +362,7 @@ getPagesKeyword(): number[] {
 
 
 createGrammer(){
+  this.addGrammerstatus = true
  // Here you can handle form submission, e.g., send data to server
  this.grammarData.tutorialId = this.back.tutotrialid
  this.grammarData.grammar_id = 0
@@ -363,11 +376,12 @@ debugger
       
       console.log('API Response:', response);
       // Handle response as needed
-     
+      this.addGrammerstatus = false
       this.router.navigate(['Home']);
     },
     error => {
       console.error('API Error:', error);
+      this.addGrammerstatus = false
       // Handle error as needed
     }
   );
@@ -390,8 +404,9 @@ this.http.get<FormData>('https://tts.eliteacademyeg.com/api/grammars/'+id)
 }
 onsubmitEditGrammer()
 {
+  this.editGrammerstatus = true
   console.log(this.formDataGrammer);
-  this.http.delete<any[]>('https://tts.eliteacademyeg.com/api/grammars/'+this.formDataGrammer.grammar_id)
+  this.http.post<any[]>('https://tts.eliteacademyeg.com/api/grammars/delete/'+this.formDataGrammer.grammar_id,null)
 .subscribe(
   (response: any[]) => {
     console.log(response)
@@ -408,6 +423,7 @@ onsubmitEditGrammer()
         
         
         console.log('API Response:', response);
+        this.editGrammerstatus = false
         // Handle response as needed
         this.router.navigate(['Home']);
        
@@ -426,10 +442,12 @@ onsubmitEditGrammer()
 }
 deleteGrammer(id:any)
 {
-this.http.delete<any[]>('https://tts.eliteacademyeg.com/api/grammars/'+id)
+  this.deleteGrammerstatus = true
+this.http.post<any[]>('https://tts.eliteacademyeg.com/api/grammars/delete/'+id,null)
 .subscribe(
   (response: any[]) => {
     console.log(response)
+    this.deleteGrammerstatus = false
     this.router.navigate(['Home']);
   },
   (error) => {
@@ -460,11 +478,12 @@ editKeyword(id:any){
   );
 }
 deleteKeyword(id:any)
-{
-  this.http.delete<any[]>('https://tts.eliteacademyeg.com/keywords/'+id)
+{ this.deleteKeywordsstatus = true
+  this.http.post<any[]>('https://tts.eliteacademyeg.com/keywords/delete/'+id,null)
   .subscribe(
     (response: any[]) => {
       console.log(response)
+      this.deleteKeywordsstatus = false
       this.router.navigate(['Home']);
     },
     (error) => {
@@ -476,6 +495,7 @@ deleteKeyword(id:any)
 
 }
 onsubmitCreateKeyword(){
+  this.addKeywordsstatus = true
   if (this.keywordForm.valid) {
     // Here you can handle form submission, e.g., send data to server
     this.keywordForm.value.tutorialId = this.back.tutotrialid
@@ -491,6 +511,7 @@ onsubmitCreateKeyword(){
         
         console.log('API Response:', response);
         // Handle response as needed
+        this.addKeywordsstatus = false
         this.router.navigate(['Home']);
        
         
@@ -498,15 +519,16 @@ onsubmitCreateKeyword(){
       error => {
         console.error('API Error:', error);
         // Handle error as needed
+        this.addKeywordsstatus = false
       }
     );
   }
 }
 onsubmitEditKeyword(){
     // Call API to update data
-
+this.editKeywordsstatus = true
     console.log(this.FormDataKeyword);
-    this.http.delete<any[]>('https://tts.eliteacademyeg.com/keywords/'+this.FormDataKeyword.keyword_id)
+    this.http.post<any[]>('https://tts.eliteacademyeg.com/keywords/delete/'+this.FormDataKeyword.keyword_id,null)
   .subscribe(
     (response: any[]) => {
       console.log(response)
@@ -524,12 +546,13 @@ onsubmitEditKeyword(){
           
           console.log('API Response:', response);
           // Handle response as needed
-         
+          this.editKeywordsstatus = false
           this.router.navigate(['Home']);
         },
         error => {
           console.error('API Error:', error);
           // Handle error as needed
+          this.editKeywordsstatus = false
         }
       );
     },
@@ -563,11 +586,13 @@ editQuiz(id:any){
 deleteQuiz(id:any)
 {
   debugger
-  this.http.delete<any>('https://tts.eliteacademyeg.com/api/v1/quiz/'+id)
+  this.deletequizstatus = true
+  this.http.post<any>('https://tts.eliteacademyeg.com/api/v1/quiz/delete/'+id,null)
   .subscribe(
     (response: any) => {
       
       console.log(response)
+      this.deletequizstatus = false
       this.router.navigate(['Home']);
     },
     (error) => {
@@ -613,6 +638,7 @@ removeChoice(index: number): void {
 
 }
 onSubmitAddQuiz(): void {
+  this.addquizstatus = true
 this.back.questionCode ++
 this.http.post<any>('https://tts.eliteacademyeg.com/api/v1/quiz', this.quiz)
 .subscribe(
@@ -622,11 +648,13 @@ response => {
   
   console.log('API Response:', response);
   // Handle response as needed
+  this.addquizstatus = false
   this.router.navigate(['Home']);
   
 },
 error => {
   console.error('API Error:', error);
+  this.addquizstatus = false
   // Handle error as needed
 }
 );
@@ -662,17 +690,18 @@ removeQuestionEdit(index: number): void {
 }
 onSubmitEditQuiz(){
 
-
+this.editquizstatus = true
 this.updateQuiz(this.quizEdit.id, this.quizEdit.code, this.quizEdit.tutorialId, this.quizEdit.questions).subscribe(response => {
 debugger
   console.log(response);
+  
   this.router.navigate(['Home']);
 
 });
 
 
 }
-private apiUrl = 'https://tts.eliteacademyeg.com/api/v1/quiz';
+private apiUrl = 'https://tts.eliteacademyeg.com/api/v1/quiz/update';
 updateQuiz(quizId: number, code: string, tutorialId: number, questions: Question[]): Observable<any> {
 debugger
 const requestBody = {
@@ -690,13 +719,15 @@ const headers = new HttpHeaders({
 'Content-Type': 'application/json'
 
 });
-return this.http.put(`${this.apiUrl}/${quizId}`,requestBody,{ headers } );
+this.editquizstatus = false
+return this.http.post(`${this.apiUrl}/${quizId}`,requestBody,{ headers } );
 }
 
 
 
 
 createStory(){
+  
   this.router.navigate(['/add-Story']);
 }
 editStory(id:any){
@@ -715,11 +746,12 @@ editStory(id:any){
   );
 }
 deleteStory(id:any)
-{
-  this.http.delete<any[]>('https://tts.eliteacademyeg.com/api/v1/story/'+id)
+{ this.deleteStorystatus = true
+  this.http.post<any[]>('https://tts.eliteacademyeg.com/api/v1/story/delete/'+id,null)
   .subscribe(
     (response: any[]) => {
       console.log(response)
+      this.deleteStorystatus = false
       this.router.navigate(['Home']);
     },
     (error) => {
@@ -733,9 +765,9 @@ deleteStory(id:any)
 onSubmitEditStory() {
 
   // Call API to update data
-
+this.editStorystatus =true
   console.log(this.FormDataStory);
-  this.http.delete<any[]>('https://tts.eliteacademyeg.com/api/v1/story/'+this.back.storyid)
+  this.http.post<any[]>('https://tts.eliteacademyeg.com/api/v1/story/delete/'+this.back.storyid,null)
 .subscribe(
   (response: any[]) => {
     console.log(response)
@@ -755,11 +787,12 @@ onSubmitEditStory() {
         
         console.log('API Response:', response);
         // Handle response as needed
-       
+        this.editStorystatus =false
         this.router.navigate(['Home']);
       },
       error => {
         console.error('API Error:', error);
+        this.editStorystatus =false
         // Handle error as needed
       }
     );
@@ -772,7 +805,7 @@ onSubmitEditStory() {
   
 }
 onSubmitAddStory() {
-
+this.addStorystatus = true
   console.log(this.storyAdd);
 this.storyAdd.tutorialId = this.back.tutotrialid
   // Call your API to save the quiz data
@@ -784,11 +817,12 @@ this.storyAdd.tutorialId = this.back.tutotrialid
       
       console.log('API Response:', response);
       // Handle response as needed
-     
+      this.addStorystatus = false
       this.router.navigate(['']);
     },
     error => {
       console.error('API Error:', error);
+      this.addStorystatus = false
       // Handle error as needed
     }
   );

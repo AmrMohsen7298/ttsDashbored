@@ -28,6 +28,7 @@ import { AddLessonComponent } from './add-lesson/add-lesson.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { AlertComponent, AlertHeadingDirective } from '@coreui/angular';
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +37,7 @@ AddLessonComponent,
 LoginComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,

@@ -368,11 +368,15 @@
       </div>
 
       <div class="text-center">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button *ngIf="!addGrammerstatus"type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
   </c-modal-body>
-  
+  <div *ngIf="addGrammerstatus" class="text-center">
+    <div class="spinner-border" role="editGrammerstatus">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 </c-modal>
 <!--//////////////////////////////////////////////////////////////////////edit grammer ////////////////////////////////////////////////////////////////-->
 
@@ -404,10 +408,14 @@
       <input type="text" class="form-control" id="example" name="example" [(ngModel)]="formDataGrammer.example">
     </div>
    
-    <button type="submit" class="btn btn-primary">Update</button>
+    <button *ngIf="!editGrammerstatus" type="submit" class="btn btn-primary">Update</button>
   </form>
   </c-modal-body>
-
+  <div *ngIf="editGrammerstatus" class="text-center">
+    <div class="spinner-border" role="editGrammerstatus">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 </c-modal>
 
 
@@ -447,11 +455,15 @@
       </div>
 
       <div class="text-center">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button *ngIf="!addKeywordsstatus" type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
   </c-modal-body>
-  
+  <div *ngIf="addKeywordsstatus" class="text-center">
+    <div class="spinner-border" role="addKeywordsstatus">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 </c-modal>
 
 <!--//////////////////////////////////////////////////Edit keyword///////////////////////-->
@@ -483,10 +495,14 @@
       <label for="level">Level</label>
       <input type="text" class="form-control" id="level" name="level" [(ngModel)]="FormDataKeyword.level">
     </div>
-    <button type="submit" class="btn btn-primary">Update</button>
+    <button *ngIf="!editKeywordsstatus" type="submit" class="btn btn-primary">Update</button>
   </form>
   </c-modal-body>
-
+  <div *ngIf="editKeywordsstatus" class="text-center">
+    <div class="spinner-border" role="editKeywordsstatus">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 </c-modal>
 
 
@@ -534,11 +550,15 @@
         <button class="btn btn-primary " type="button" (click)="addQuestion()">Add Question</button>
       </div>
       <div class="text-center">
-      <button class="btn btn-primary  " type="submit" class="btn btn-primary">Submit</button>
+      <button *ngIf="!addquizstatus" class="btn btn-primary  " type="submit" class="btn btn-primary">Submit</button>
     </div>
     </form>
   </c-modal-body>
-  
+  <div *ngIf="addquizstatus" class="text-center">
+    <div class="spinner-border" role="addquizstatus">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 </c-modal>
 <!--//////////////////////// edit Quiz////////////////////////-->
 
@@ -565,13 +585,17 @@
           <label for="questionAnswer{{i}}">Question Answer</label>
           <input type="text" class="form-control" id="questionAnswer{{i}}" [(ngModel)]="quizEdit.questions[i].answer" name="questionAnswer{{i}}">
         </div>
-        <button type="button" class="btn btn-danger" (click)="removeQuestionEdit(i)">Remove Question</button>
+        <button *ngIf="!editquizstatus" type="button" class="btn btn-danger" (click)="removeQuestionEdit(i)">Remove Question</button>
       </div>
-      <button type="button" class="btn btn-primary" (click)="addQuestionEdit()">Add Question</button>
-      <button type="submit" class="btn btn-success" (click)="onSubmitEditQuiz()">Submit</button>
+      <button *ngIf="!editquizstatus" type="button" class="btn btn-primary" (click)="addQuestionEdit()">Add Question</button>
+      <button *ngIf="!editquizstatus"type="submit" class="btn btn-success" (click)="onSubmitEditQuiz()">Submit</button>
     </form>
   </c-modal-body>
-  
+  <div *ngIf="editquizstatus" class="text-center">
+    <div class="spinner-border" role="editquizstatus">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 </c-modal>
 <!--/////////////////////////////////add story ///////////////////////////-->
 
@@ -601,12 +625,16 @@
             </div>
     
             <div class="text-center">
-              <button type="submit" class="btn btn-primary">Save</button>
+              <button *ngIf="!addStorystatus"  type="submit" class="btn btn-primary">Save</button>
             </div>
           </form>
         
   </c-modal-body>
-
+  <div *ngIf="addStorystatus" class="text-center">
+    <div class="spinner-border" role="addStorystatus">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 </c-modal>
 
 <!--///////////////////////////////////Edit story /////////////////////////////////-->
@@ -614,7 +642,7 @@
 
 <c-modal #verticallyCenteredModalEditStory alignment="center" id="verticallyCenteredModalEditStory">
   <c-modal-header>
-    <h5 cModalTitle>Modal title</h5>
+    <h5 cModalTitle>Edit Story</h5>
     <button [cModalToggle]="verticallyCenteredModalEditStory.id" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
@@ -630,8 +658,12 @@
     </div>
     
    
-    <button type="submit" class="btn btn-primary">Update</button>
+    <button *ngIf="!editStorystatus"  type="submit" class="btn btn-primary">Update</button>
   </form>
   </c-modal-body>
- 
+  <div *ngIf="editStorystatus" class="text-center">
+    <div class="spinner-border" role="editStorystatus">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 </c-modal>
