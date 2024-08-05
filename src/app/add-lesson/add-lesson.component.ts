@@ -383,6 +383,7 @@ debugger
     error => {
       console.error('API Error:', error);
       this.addGrammerstatus = false
+      window.location.reload();
       // Handle error as needed
     }
   );
@@ -431,6 +432,7 @@ onsubmitEditGrammer()
       },
       error => {
         console.error('API Error:', error);
+        window.location.reload();
         // Handle error as needed
       }
     );
@@ -521,6 +523,7 @@ onsubmitCreateKeyword(){
         console.error('API Error:', error);
         // Handle error as needed
         this.addKeywordsstatus = false
+        window.location.reload();
       }
     );
   }
@@ -554,6 +557,7 @@ this.editKeywordsstatus = true
           console.error('API Error:', error);
           // Handle error as needed
           this.editKeywordsstatus = false
+          window.location.reload();
         }
       );
     },
@@ -598,6 +602,7 @@ deleteQuiz(id:any)
     },
     (error) => {
       console.error('Error fetching lessons:', error);
+      
     }
   );
 
@@ -656,6 +661,7 @@ response => {
 error => {
   console.error('API Error:', error);
   this.addquizstatus = false
+  window.location.reload();
   // Handle error as needed
 }
 );
@@ -794,6 +800,7 @@ this.editStorystatus =true
       error => {
         console.error('API Error:', error);
         this.editStorystatus =false
+        window.location.reload();
         // Handle error as needed
       }
     );
@@ -819,11 +826,12 @@ this.storyAdd.tutorialId = this.back.tutotrialid
       console.log('API Response:', response);
       // Handle response as needed
       this.addStorystatus = false
-      this.router.navigate(['']);
+      window.location.reload();
     },
     error => {
       console.error('API Error:', error);
       this.addStorystatus = false
+      window.location.reload();
       // Handle error as needed
     }
   );
