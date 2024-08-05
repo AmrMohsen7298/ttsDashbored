@@ -256,57 +256,57 @@ totalPagesQuiz: number = 0;
         this.filteredLessons = this.grammer;
         const totalLessons = this.filterLessons().length;
         this.totalPages = Math.ceil(totalLessons / this.pageSize);
-        this.http.get<any[]>('https://tts.eliteacademyeg.com/keywords/getByTutorial/'+this.back.tutotrialid)
-        .subscribe(
-          (response: any[]) => {
-            console.log(response)
-            this.keywords = response;
-            this.filteredLessonsKeyword = this.keywords;
-            const totalLessons = this.filterLessonsKeyword().length;
-            this.totalPagesKeyword = Math.ceil(totalLessons / this.pageSizeKeyword);
-            this.http.get<any>('https://tts.eliteacademyeg.com/api/v1/quiz/tutorial/'+this.back.tutotrialid)
-            .subscribe(
-              (response: any) => {
-                console.log(response)
-                debugger
-                const jsonString = JSON.stringify(response); // Convert the object to JSON
-                this.quizData = JSON.parse(jsonString); // Parse the JSON string back to an object
-                console.log("quiz parsed " + this.quizData);
-                this.http.get<any>('https://tts.eliteacademyeg.com/api/v1/story/tutorial/'+this.back.tutotrialid)
-                .subscribe(
-                  (response: any) => {
-                    debugger
-                    console.log(response)
-                    const jsonString = JSON.stringify(response); // Convert the object to JSON
-                    this.story = JSON.parse(jsonString); // Parse the JSON string back to an object
-                    console.log("story parsed " + this.story);
-                  },
-                  (error) => {
-                    console.error('Error fetching lessons:', error);
-                  }
-                );
-            
-              
-              },
-              (error) => {
-                console.error('Error fetching lessons:', error);
-              }
-            );
-
-
-          },
-          (error) => {
-            console.error('Error fetching lessons:', error);
-          }
-        );
+      
       },
       (error) => {
         console.error('Error fetching lessons:', error);
       }
     );
-   
+    this.http.get<any[]>('https://tts.eliteacademyeg.com/keywords/getByTutorial/'+this.back.tutotrialid)
+    .subscribe(
+      (response: any[]) => {
+        console.log(response)
+        this.keywords = response;
+        this.filteredLessonsKeyword = this.keywords;
+        const totalLessons = this.filterLessonsKeyword().length;
+        this.totalPagesKeyword = Math.ceil(totalLessons / this.pageSizeKeyword);
+      
 
-   
+
+      },
+      (error) => {
+        console.error('Error fetching lessons:', error);
+      }
+    );
+    this.http.get<any>('https://tts.eliteacademyeg.com/api/v1/quiz/tutorial/'+this.back.tutotrialid)
+    .subscribe(
+      (response: any) => {
+        console.log(response)
+        debugger
+        const jsonString = JSON.stringify(response); // Convert the object to JSON
+        this.quizData = JSON.parse(jsonString); // Parse the JSON string back to an object
+        console.log("quiz parsed " + this.quizData);
+       
+    
+      
+      },
+      (error) => {
+        console.error('Error fetching lessons:', error);
+      }
+    );
+    this.http.get<any>('https://tts.eliteacademyeg.com/api/v1/story/tutorial/'+this.back.tutotrialid)
+        .subscribe(
+          (response: any) => {
+            debugger
+            console.log(response)
+            const jsonString = JSON.stringify(response); // Convert the object to JSON
+            this.story = JSON.parse(jsonString); // Parse the JSON string back to an object
+            console.log("story parsed " + this.story);
+          },
+          (error) => {
+            console.error('Error fetching lessons:', error);
+          }
+        );
   }
   
 
