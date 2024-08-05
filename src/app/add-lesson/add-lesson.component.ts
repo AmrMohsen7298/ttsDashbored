@@ -247,6 +247,7 @@ totalPagesQuiz: number = 0;
 
 
   ngOnInit(): void {
+    this.back.tutotrialid =localStorage.getItem('tutorialId')
     this.http.get<any[]>('https://tts.eliteacademyeg.com/api/grammars/getTutorial/'+this.back.tutotrialid)
     .subscribe(
       (response: any[]) => {
@@ -377,7 +378,7 @@ debugger
       console.log('API Response:', response);
       // Handle response as needed
       this.addGrammerstatus = false
-      this.router.navigate(['Home']);
+      window.location.reload();
     },
     error => {
       console.error('API Error:', error);
@@ -425,7 +426,7 @@ onsubmitEditGrammer()
         console.log('API Response:', response);
         this.editGrammerstatus = false
         // Handle response as needed
-        this.router.navigate(['Home']);
+        window.location.reload();
        
       },
       error => {
@@ -448,7 +449,7 @@ this.http.post<any[]>('https://tts.eliteacademyeg.com/api/grammars/delete/'+id,n
   (response: any[]) => {
     console.log(response)
     this.deleteGrammerstatus = false
-    this.router.navigate(['Home']);
+    window.location.reload();
   },
   (error) => {
     console.error('Error fetching lessons:', error);
@@ -484,7 +485,7 @@ deleteKeyword(id:any)
     (response: any[]) => {
       console.log(response)
       this.deleteKeywordsstatus = false
-      this.router.navigate(['Home']);
+      window.location.reload();
     },
     (error) => {
       console.error('Error fetching lessons:', error);
@@ -512,7 +513,7 @@ onsubmitCreateKeyword(){
         console.log('API Response:', response);
         // Handle response as needed
         this.addKeywordsstatus = false
-        this.router.navigate(['Home']);
+        window.location.reload();
        
         
       },
@@ -547,7 +548,7 @@ this.editKeywordsstatus = true
           console.log('API Response:', response);
           // Handle response as needed
           this.editKeywordsstatus = false
-          this.router.navigate(['Home']);
+          window.location.reload();
         },
         error => {
           console.error('API Error:', error);
@@ -593,7 +594,7 @@ deleteQuiz(id:any)
       
       console.log(response)
       this.deletequizstatus = false
-      this.router.navigate(['Home']);
+      window.location.reload();
     },
     (error) => {
       console.error('Error fetching lessons:', error);
@@ -649,7 +650,7 @@ response => {
   console.log('API Response:', response);
   // Handle response as needed
   this.addquizstatus = false
-  this.router.navigate(['Home']);
+  window.location.reload();
   
 },
 error => {
@@ -695,7 +696,7 @@ this.updateQuiz(this.quizEdit.id, this.quizEdit.code, this.quizEdit.tutorialId, 
 debugger
   console.log(response);
   
-  this.router.navigate(['Home']);
+  window.location.reload();
 
 });
 
@@ -752,7 +753,7 @@ deleteStory(id:any)
     (response: any[]) => {
       console.log(response)
       this.deleteStorystatus = false
-      this.router.navigate(['Home']);
+      window.location.reload();
     },
     (error) => {
       console.error('Error fetching lessons:', error);
@@ -788,7 +789,7 @@ this.editStorystatus =true
         console.log('API Response:', response);
         // Handle response as needed
         this.editStorystatus =false
-        this.router.navigate(['Home']);
+        window.location.reload();
       },
       error => {
         console.error('API Error:', error);

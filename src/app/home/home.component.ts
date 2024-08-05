@@ -57,6 +57,7 @@ selectedCategory: string = '';
   }
 addLesson(id:any){
    this.back.tutotrialid = id
+   localStorage.setItem('tutorialId', id.toString());
    console.log(this.back.tutotrialid)
    this.router.navigate(['add-lesson']);
   
