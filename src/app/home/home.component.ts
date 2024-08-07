@@ -75,7 +75,7 @@ filterByCategory(category:string): void{
 
   ngOnInit(): void {
     this.back.isLogin =  true
-    this.http.get<any[]>('http://localhost:8080/api/tutorials')
+    this.http.get<any[]>('https://tts.eliteacademyeg.com/api/tutorials')
     .subscribe(
       (response: any[]) => {
         console.log(response.values)
@@ -107,7 +107,7 @@ filterByCategory(category:string): void{
   .set('level', this.formData.level)
   .set('isPaid', this.formData.isPaid);
 
-    this.http.post<any>('http://localhost:8080/api/tutorials', formData_,{params})
+    this.http.post<any>('https://tts.eliteacademyeg.com/api/tutorials', formData_,{params})
       .subscribe(
         response => {
           
