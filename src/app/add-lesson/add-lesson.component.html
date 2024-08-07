@@ -1,26 +1,19 @@
 
 <c-container>
-    <c-tabs [activeItemKey]="0" >
+    <c-tabs [activeItemKey]=0>
         <c-tabs-list variant="pills">
-          <button cTab [itemKey]="0">Grammer</button>
-          <button cTab [itemKey]="1">Keywords</button>
-          <button cTab [itemKey]="2">Quiz</button>
-          <button cTab [itemKey]="3" >Story</button>
+          <button cTab [itemKey]="0" >Grammer</button>
+          <button cTab [itemKey]="1" >Keywords</button>
+          <button cTab [itemKey]="2" >Quiz</button>
+          <button cTab [itemKey]="3"  >Story</button>
         </c-tabs-list>
-        <c-tabs-content>
-          <c-tab-panel class="p-3" [itemKey]="0" >
+        <c-tabs-content >
+          <c-tab-panel class="p-3" [itemKey]="0"  >
             <div class="container mt-5">
                 <h2 class="text-center mb-4">Grammer</h2>
                 
                 <!-- Search bar with filter dropdown -->
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="Search lessons..." [(ngModel)]="searchText">
-                  <div class="input-group-append">
-                    <button class="btn btn-primary" type="button">Search</button>
-                  </div>
-                  
-                 
-                </div>
+                
                 
                 <div class="row">
                   <div class="col-md-4">
@@ -93,16 +86,13 @@
                 
               </div>
           </c-tab-panel>
-          <c-tab-panel class="p-3" [itemKey]="1">
+          <c-tab-panel class="p-3" [itemKey]="1" >
             <div class="container mt-5">
               <h2 class="text-center mb-4">Keyword</h2>
               
               <!-- Search bar with filter dropdown -->
               <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Search lessons..." [(ngModel)]="searchTextKeyword">
-                <div class="input-group-append">
-                  <button class="btn btn-primary" type="button">Search</button>
-                </div>
+              
                 
                 <!-- Filter dropdown -->
                 
@@ -179,17 +169,14 @@
              
             </div>
           </c-tab-panel>
-          <c-tab-panel class="p-3" [itemKey]="2">
+          <c-tab-panel class="p-3" [itemKey]="2" >
             
   <div class="container mt-5">
     <h2 class="text-center mb-4">Quiz</h2>
     
     <!-- Search bar with filter dropdown -->
     <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Search lessons..." [(ngModel)]="searchText">
-      <div class="input-group-append">
-        <button class="btn btn-primary" type="button">Search</button>
-      </div>
+      
       
      
     </div>
@@ -244,7 +231,7 @@
    
   </div>
           </c-tab-panel>
-          <c-tab-panel class="p-3" [itemKey]="3">
+          <c-tab-panel class="p-3" [itemKey]="3" >
             <div class="container mt-5">
               <h2 class="text-center mb-4">Stories</h2>
               
@@ -509,20 +496,20 @@
 <!--///////////////////////add Quiz///////////////////////-->
 
 
-<c-modal #verticallyCenteredModalAddQuiz alignment="center" id="verticallyCenteredModalAddQuiz">
+<c-modal   #verticallyCenteredModalAddQuiz alignment="center" id="verticallyCenteredModalAddQuiz">
   <c-modal-header>
     <h5 cModalTitle>Add Quiz</h5>
     <button [cModalToggle]="verticallyCenteredModalAddQuiz.id" cButtonClose></button>
   </c-modal-header>
-  <c-modal-body>
-    <form #myForm="ngForm" (ngSubmit)="onSubmitAddQuiz()" class="needs-validation" novalidate>
+  <c-modal-body >
+    <form  #myForm="ngForm" (ngSubmit)="onSubmitAddQuiz()" class="needs-validation" novalidate>
       <div>
         <div *ngFor="let question of quiz.questions; let i = index">
           <h4>Question {{i+1}}</h4>
           
           <div class="mb-3">
             <label class="form-label" for="question-{{i}}-text" >Text</label>
-            <textarea class="form-control" id="question-{{i}}-text" [(ngModel)]="question.text" rows="3" name="question.text"></textarea>
+            <textarea class="form-control" id="question-{{i}}-text" [(ngModel)]="question.text" rows="3" name="question.text" ></textarea>
           </div>
 
 
@@ -531,8 +518,8 @@
           <div class="mb-3">
             <label class="form-label" for="question-{{i}}-choices">Choices</label>
             <div>
-              <div *ngFor="let choice of question.choices; let j = index">
-                <textarea class="form-control" id="question-{{i}}-choice-{{j}}" [(ngModel)]="question.choices[j]" rows="3" name="question.choices[j]"></textarea>
+              <div *ngFor="let choice of question.choices; let j = index trackBy: trackChoiceById">
+                <textarea  class="form-control" id="question-{{i}}-choice-{{j}}" [(ngModel)]="question.choices[j]" rows="3" name="question.choices[j]" >{{choices[j]}}</textarea>
               </div>
               <button class="btn btn-primary "type="button" (click)="addChoice(i)">Add Choice</button>
               <button class="btn btn-primary" type="button" (click)="removeChoice(i)">Remove Last Choice</button>

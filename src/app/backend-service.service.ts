@@ -12,5 +12,6 @@ export class BackendServiceService {
   quizId:any
   storyid:any
   isLogin:boolean = false
+  quiz:any
   constructor() { }
 }

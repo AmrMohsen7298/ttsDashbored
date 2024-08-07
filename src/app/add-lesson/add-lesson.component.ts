@@ -158,9 +158,11 @@ totalPagesQuiz: number = 0;
     name: '',
 
     paragraph:''};
+    choices :any = []
   quiz:any
   quizEdit:any
   story: any ;
+  activeTab!: string;
   addquizstatus :boolean = false 
   addGrammerstatus:boolean = false 
   addKeywordsstatus:boolean = false 
@@ -176,6 +178,7 @@ totalPagesQuiz: number = 0;
   constructor(private formBuilder: FormBuilder,private router: Router,private http: HttpClient,private back:BackendServiceService) { 
     this.grammer = [];
     this.keywords = [];
+  
     this.keywordForm = formBuilder.group([])
     this.keywordForm = this.formBuilder.group({
       keyword_id: [''],
@@ -206,7 +209,7 @@ totalPagesQuiz: number = 0;
   
         text: '',
   
-        choices: ['', '', ''],
+        choices: ['', '', '',],
   
         answer: ''
         }
@@ -232,7 +235,7 @@ totalPagesQuiz: number = 0;
   
         text: '',
   
-        choices: ['', '', ''],
+        choices: ['', '', '',],
   
         answer: ''
         }
@@ -248,7 +251,8 @@ totalPagesQuiz: number = 0;
 
   ngOnInit(): void {
     this.back.tutotrialid =localStorage.getItem('tutorialId')
-    this.http.get<any[]>('https://tts.eliteacademyeg.com/api/grammars/getTutorial/'+this.back.tutotrialid)
+   
+    this.http.get<any[]>('http://localhost:8080/api/grammars/getTutorial/'+this.back.tutotrialid)
     .subscribe(
       (response: any[]) => {
         console.log(response)
@@ -262,7 +266,7 @@ totalPagesQuiz: number = 0;
         console.error('Error fetching lessons:', error);
       }
     );
-    this.http.get<any[]>('https://tts.eliteacademyeg.com/keywords/getByTutorial/'+this.back.tutotrialid)
+    this.http.get<any[]>('http://localhost:8080/keywords/getByTutorial/'+this.back.tutotrialid)
     .subscribe(
       (response: any[]) => {
         console.log(response)
@@ -278,7 +282,7 @@ totalPagesQuiz: number = 0;
         console.error('Error fetching lessons:', error);
       }
     );
-    this.http.get<any>('https://tts.eliteacademyeg.com/api/v1/quiz/tutorial/'+this.back.tutotrialid)
+    this.http.get<any>('http://localhost:8080/api/v1/quiz/tutorial/'+this.back.tutotrialid)
     .subscribe(
       (response: any) => {
         console.log(response)
@@ -294,7 +298,7 @@ totalPagesQuiz: number = 0;
         console.error('Error fetching lessons:', error);
       }
     );
-    this.http.get<any>('https://tts.eliteacademyeg.com/api/v1/story/tutorial/'+this.back.tutotrialid)
+    this.http.get<any>('http://localhost:8080/api/v1/story/tutorial/'+this.back.tutotrialid)
         .subscribe(
           (response: any) => {
             debugger
@@ -307,9 +311,10 @@ totalPagesQuiz: number = 0;
             console.error('Error fetching lessons:', error);
           }
         );
+       
   }
   
-
+ 
 
 nextPage(): void {
   if (this.currentPage < this.totalPages) {
@@ -360,7 +365,11 @@ getPagesKeyword(): number[] {
 }
 
 
+trackChoiceById(index: number, choice: any) {
 
+  return choice.id; // or any unique identifier for each choice
+
+}
 
 createGrammer(){
   this.addGrammerstatus = true
@@ -369,7 +378,7 @@ createGrammer(){
  this.grammarData.grammar_id = 0
   console.log('Form submitted:', this.grammarData);
 debugger
-  this.http.post<any>('https://tts.eliteacademyeg.com/api/grammars', this.grammarData)
+  this.http.post<any>('http://localhost:8080/api/grammars', this.grammarData)
   .subscribe(
     response => {
       
@@ -390,7 +399,7 @@ debugger
 }
 editGrammer(id:any){
 
-this.http.get<FormData>('https://tts.eliteacademyeg.com/api/grammars/'+id)
+this.http.get<FormData>('http://localhost:8080/api/grammars/'+id)
 .subscribe(
   (response: any) => {
     console.log(response)
@@ -408,7 +417,7 @@ onsubmitEditGrammer()
 {
   this.editGrammerstatus = true
   console.log(this.formDataGrammer);
-  this.http.post<any[]>('https://tts.eliteacademyeg.com/api/grammars/delete/'+this.formDataGrammer.grammar_id,null)
+  this.http.post<any[]>('http://localhost:8080/api/grammars/delete/'+this.formDataGrammer.grammar_id,null)
 .subscribe(
   (response: any[]) => {
     console.log(response)
@@ -418,7 +427,7 @@ onsubmitEditGrammer()
     
     this.formDataGrammer.tutorialId=this.back.tutotrialid
    
-    this.http.post<any>('https://tts.eliteacademyeg.com/api/grammars', this.formDataGrammer)
+    this.http.post<any>('http://localhost:8080/api/grammars', this.formDataGrammer)
     .subscribe(
       response => {
         
@@ -446,7 +455,7 @@ onsubmitEditGrammer()
 deleteGrammer(id:any)
 {
   this.deleteGrammerstatus = true
-this.http.post<any[]>('https://tts.eliteacademyeg.com/api/grammars/delete/'+id,null)
+this.http.post<any[]>('http://localhost:8080/api/grammars/delete/'+id,null)
 .subscribe(
   (response: any[]) => {
     console.log(response)
@@ -468,7 +477,7 @@ createKeyword(){
 }
 
 editKeyword(id:any){
-  this.http.get<FormData>('https://tts.eliteacademyeg.com/keywords/'+id)
+  this.http.get<FormData>('http://localhost:8080/keywords/'+id)
   .subscribe(
     (response: any) => {
       console.log(response)
@@ -482,7 +491,7 @@ editKeyword(id:any){
 }
 deleteKeyword(id:any)
 { this.deleteKeywordsstatus = true
-  this.http.post<any[]>('https://tts.eliteacademyeg.com/keywords/delete/'+id,null)
+  this.http.post<any[]>('http://localhost:8080/keywords/delete/'+id,null)
   .subscribe(
     (response: any[]) => {
       console.log(response)
@@ -506,7 +515,7 @@ onsubmitCreateKeyword(){
     this.keywordForm.value.keyFlag = true
 
     console.log('Form submitted:', this.keywordForm.value);
-    this.http.post<any>('https://tts.eliteacademyeg.com/keywords', this.keywordForm.value)
+    this.http.post<any>('http://localhost:8080/keywords', this.keywordForm.value)
     .subscribe(
       response => {
         
@@ -532,7 +541,7 @@ onsubmitEditKeyword(){
     // Call API to update data
 this.editKeywordsstatus = true
     console.log(this.FormDataKeyword);
-    this.http.post<any[]>('https://tts.eliteacademyeg.com/keywords/delete/'+this.FormDataKeyword.keyword_id,null)
+    this.http.post<any[]>('http://localhost:8080/keywords/delete/'+this.FormDataKeyword.keyword_id,null)
   .subscribe(
     (response: any[]) => {
       console.log(response)
@@ -542,7 +551,7 @@ this.editKeywordsstatus = true
       this.FormDataKeyword.keyFlag=true
       this.FormDataKeyword.tutorialId=this.back.tutotrialid
       this.FormDataKeyword.translation=''
-      this.http.post<any>('https://tts.eliteacademyeg.com/keywords', this.FormDataKeyword)
+      this.http.post<any>('http://localhost:8080/keywords', this.FormDataKeyword)
       .subscribe(
         response => {
           
@@ -573,7 +582,7 @@ this.editKeywordsstatus = true
 
 editQuiz(id:any){
   this.back.quizId = id
-  this.http.get<any>('https://tts.eliteacademyeg.com/api/v1/quiz/tutorial/'+this.back.tutotrialid)
+  this.http.get<any>('http://localhost:8080/api/v1/quiz/tutorial/'+this.back.tutotrialid)
   .subscribe(
     (response: any) => {
       console.log(response)
@@ -592,7 +601,7 @@ deleteQuiz(id:any)
 {
   debugger
   this.deletequizstatus = true
-  this.http.post<any>('https://tts.eliteacademyeg.com/api/v1/quiz/delete/'+id,null)
+  this.http.post<any>('http://localhost:8080/api/v1/quiz/delete/'+id,null)
   .subscribe(
     (response: any) => {
       
@@ -629,10 +638,13 @@ addQuestion(): void {
 
 
 addChoice(index: number): void {
+  debugger
+   // create a copy of the array
 
-  this.quiz.questions[index].choices.push('');
+  this.quiz.questions[index].choices.push(""); // add a new empty string element
 
 }
+
 removeQuestion(index: number): void {
 
   this.quiz.questions.splice(index, 1);
@@ -646,7 +658,7 @@ removeChoice(index: number): void {
 onSubmitAddQuiz(): void {
   this.addquizstatus = true
 this.back.questionCode ++
-this.http.post<any>('https://tts.eliteacademyeg.com/api/v1/quiz', this.quiz)
+this.http.post<any>('http://localhost:8080/api/v1/quiz', this.quiz)
 .subscribe(
 response => {
   
@@ -708,7 +720,7 @@ debugger
 
 
 }
-private apiUrl = 'https://tts.eliteacademyeg.com/api/v1/quiz/update';
+private apiUrl = 'http://localhost:8080/api/v1/quiz/update';
 updateQuiz(quizId: number, code: string, tutorialId: number, questions: Question[]): Observable<any> {
 debugger
 const requestBody = {
@@ -739,7 +751,7 @@ createStory(){
 }
 editStory(id:any){
   this.back.storyid = id
-  this.http.get<FormDataStory>('https://tts.eliteacademyeg.com/api/v1/story/tutorial/'+this.back.tutotrialid)
+  this.http.get<FormDataStory>('http://localhost:8080/api/v1/story/tutorial/'+this.back.tutotrialid)
   .subscribe(
     (response: any) => {
       console.log(response)
@@ -754,7 +766,7 @@ editStory(id:any){
 }
 deleteStory(id:any)
 { this.deleteStorystatus = true
-  this.http.post<any[]>('https://tts.eliteacademyeg.com/api/v1/story/delete/'+id,null)
+  this.http.post<any[]>('http://localhost:8080/api/v1/story/delete/'+id,null)
   .subscribe(
     (response: any[]) => {
       console.log(response)
@@ -774,7 +786,7 @@ onSubmitEditStory() {
   // Call API to update data
 this.editStorystatus =true
   console.log(this.FormDataStory);
-  this.http.post<any[]>('https://tts.eliteacademyeg.com/api/v1/story/delete/'+this.back.storyid,null)
+  this.http.post<any[]>('http://localhost:8080/api/v1/story/delete/'+this.back.storyid,null)
 .subscribe(
   (response: any[]) => {
     console.log(response)
@@ -786,7 +798,7 @@ this.editStorystatus =true
    this.FormDataStory.translation = ''
    this.FormDataStory.id = 0
    debugger
-    this.http.post<any>('https://tts.eliteacademyeg.com/api/v1/story', this.FormDataStory)
+    this.http.post<any>('http://localhost:8080/api/v1/story', this.FormDataStory)
     .subscribe(
       response => {
         debugger
@@ -817,7 +829,7 @@ this.addStorystatus = true
   console.log(this.storyAdd);
 this.storyAdd.tutorialId = this.back.tutotrialid
   // Call your API to save the quiz data
-  this.http.post<any>('https://tts.eliteacademyeg.com/api/v1/story', this.storyAdd)
+  this.http.post<any>('http://localhost:8080/api/v1/story', this.storyAdd)
   .subscribe(
     response => {
       debugger
