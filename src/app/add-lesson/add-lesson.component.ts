@@ -158,6 +158,8 @@ totalPagesQuiz: number = 0;
     name: '',
 
     paragraph:''};
+    randomNumbersQuestionCode: Set<number> = new Set();
+    randomNumbersQuizCode: Set<number> = new Set();
     choices :any = []
   quiz:any
   quizEdit:any
@@ -195,7 +197,7 @@ totalPagesQuiz: number = 0;
 
       id: 0,
   
-      code: this.back.questionCode.toString(),
+      code: this.generateRandomNumberQuestionCode(),
   
       tutorialId: this.back.tutotrialid,
   
@@ -205,7 +207,7 @@ totalPagesQuiz: number = 0;
   
          
   
-        code: this.back.quizquestionslength.toString(),
+        code: this.generateRandomNumberQuizCode(),
   
         text: '',
   
@@ -221,7 +223,7 @@ totalPagesQuiz: number = 0;
 
       id: 0,
   
-      code: this.back.questionCode.toString(),
+      code: this.generateRandomNumberQuestionCode(),
   
       tutorialId: this.back.tutotrialid,
   
@@ -231,7 +233,7 @@ totalPagesQuiz: number = 0;
   
          
   
-        code: this.back.quizquestionslength.toString(),
+        code: this.generateRandomNumberQuizCode(),
   
         text: '',
   
@@ -313,7 +315,28 @@ totalPagesQuiz: number = 0;
         );
        
   }
-  
+  generateRandomNumberQuestionCode () :string {
+
+    let newNumber: number;
+
+    do {
+
+      this.back.questionCode= newNumber = Math.floor(Math.random() * 100); // generate a random number between 0 and 99
+
+    } while (!this.randomNumbersQuestionCode.add(newNumber)); // check if the number is already in the set
+    return newNumber.toString()
+  }
+  generateRandomNumberQuizCode () :string {
+
+    let newNumber: number;
+
+    do {
+
+      this.back.quizquestionslength= newNumber = Math.floor(Math.random() * 100); // generate a random number between 0 and 99
+
+    } while (!this.randomNumbersQuizCode.add(newNumber)); // check if the number is already in the set
+    return newNumber.toString()
+  }
  
 
 nextPage(): void {
@@ -620,11 +643,11 @@ deleteQuiz(id:any)
 }
 addQuestion(): void {
 
+  this.generateRandomNumberQuizCode()
   this.quiz.questions.push({
 
-  
 
-    code: (this.back.quizquestionslength + 1).toString(),
+    code: (this.back.quizquestionslength ).toString(),
 
     text: '',
 
@@ -657,7 +680,7 @@ removeChoice(index: number): void {
 }
 onSubmitAddQuiz(): void {
   this.addquizstatus = true
-this.back.questionCode ++
+debugger
 this.http.post<any>('https://tts.eliteacademyeg.com/api/v1/quiz', this.quiz)
 .subscribe(
 response => {
@@ -682,14 +705,14 @@ error => {
 }
 
 addQuestionEdit(): void {
-
+this.generateRandomNumberQuizCode()
   this.quiz.questions.push({
 
    
 
   
 
-    code: (this.back.quizquestionslength + 1).toString(),
+    code: (this.back.quizquestionslength ).toString(),
 
     text: '',
 
