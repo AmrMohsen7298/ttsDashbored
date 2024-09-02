@@ -26,12 +26,19 @@ export class HomeComponent {
 filteredLessons: any[] = [];
 selectedCategory: string = '';
   totalPages: number = 0;
+  homeModel:boolean = false
   // Pagination methods
   constructor(private formBuilder: FormBuilder,private router: Router,private http: HttpClient,private back:BackendServiceService) { 
     this.lessons = [];
    
   }
-
+  toggleLiveDemo() {
+    this.homeModel = !this.homeModel;
+  }
+  
+  handleLiveDemoChange(event: any) {
+    this.homeModel = event;
+  }
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
@@ -75,23 +82,25 @@ filterByCategory(category:string): void{
 
   ngOnInit(): void {
     this.back.isLogin =  true
-    this.http.get<any[]>('https://tts.eliteacademyeg.com/api/tutorials')
-    .subscribe(
-      (response: any[]) => {
-        console.log(response.values)
-        this.lessons = response;
-        this.filteredLessons = this.lessons;
-        const totalLessons = this.filterLessons().length;
-        this.totalPages = Math.ceil(totalLessons / this.pageSize);
-      },
-      (error) => {
-        console.error('Error fetching lessons:', error);
-      }
-    );
+   this.getLesson()
 
    
   }
-
+getLesson(){
+  this.http.get<any[]>('http://localhost:8080/api/tutorials')
+  .subscribe(
+    (response: any[]) => {
+      console.log(response.values)
+      this.lessons = response;
+      this.filteredLessons = this.lessons;
+      const totalLessons = this.filterLessons().length;
+      this.totalPages = Math.ceil(totalLessons / this.pageSize);
+    },
+    (error) => {
+      console.error('Error fetching lessons:', error);
+    }
+  );
+}
 
 
   onSubmit() {
@@ -107,7 +116,7 @@ filterByCategory(category:string): void{
   .set('level', this.formData.level)
   .set('isPaid', this.formData.isPaid);
 
-    this.http.post<any>('https://tts.eliteacademyeg.com/api/tutorials', formData_,{params})
+    this.http.post<any>('http://localhost:8080/api/tutorials', formData_,{params})
       .subscribe(
         response => {
           
@@ -115,11 +124,14 @@ filterByCategory(category:string): void{
           console.log(this.back.tutotrialid)
           console.log('API Response:', response);
           // Handle response as needed
-          this.router.navigate(['Home']);
+          this.getLesson()
+          this.handleLiveDemoChange(false)
           
         },
         error => {
           console.error('API Error:', error);
+          this.getLesson()
+          this.handleLiveDemoChange(false)
           // Handle error as needed
         }
       );

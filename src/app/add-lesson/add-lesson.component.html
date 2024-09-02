@@ -17,7 +17,7 @@
                 
                 <div class="row">
                   <div class="col-md-4">
-                    <button [cModalToggle]="verticallyCenteredModalCreateGrammer.id" cButton >Create Grammer</button>
+                    <button (click)="toggleLiveDemoAddGrammer()" cButton >Create Grammer</button>
                   </div>
                 </div>
                 <br>
@@ -100,7 +100,7 @@
               
               <div class="row">
                 <div class="col-md-4">
-                  <button [cModalToggle]="verticallyCenteredModalCreateKeyword.id" cButton (click)="createKeyword()">Create keywords</button>
+                  <button  cButton (click)="toggleLiveDemoAddKeyword()">Create keywords</button>
                 </div>
               </div>
               <br>
@@ -183,7 +183,7 @@
     
     <div class="row">
       <div class="col-md-4">
-        <button [cModalToggle]="verticallyCenteredModalAddQuiz.id" cButton >Create Quiz</button>
+        <button *ngIf="!CreateQuizBool" (click)="toggleLiveDemoAddQuiz()" cButton >Create Quiz</button>
       </div>
     </div>
     <br>
@@ -245,7 +245,7 @@
               
               <div class="row">
                 <div class="col-md-4">
-                  <button [cModalToggle]="verticallyCenteredModalAddStory.id" cButton (click)="createStory()">Create story </button>
+                  <button *ngIf="!CreateStoryBool" (click)="toggleLiveDemoAddStory()" cButton (click)="createStory()">Create story </button>
                 </div>
               </div>
               <br>
@@ -315,10 +315,10 @@
 
 
 <!--//////////////////////////////////////////////////////////////////////add grammer//////////////////////////////////////////////////////////////// -->
-<c-modal #verticallyCenteredModalCreateGrammer alignment="center" id="verticallyCenteredModalCreateGrammer">
+<c-modal [visible]="grammerAddModel" (visibleChange)="handleLiveDemoChangeAddGrammer($event)" #verticallyCenteredModalCreateGrammer alignment="center" id="verticallyCenteredModalCreateGrammer">
   <c-modal-header>
     <h5 cModalTitle>Add Grammer</h5>
-    <button [cModalToggle]="verticallyCenteredModalCreateGrammer.id" cButtonClose></button>
+    <button (click)="toggleLiveDemoAddGrammer()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
     <form #myForm="ngForm" (ngSubmit)="createGrammer()" class="needs-validation" novalidate>
@@ -368,10 +368,10 @@
 <!--//////////////////////////////////////////////////////////////////////edit grammer ////////////////////////////////////////////////////////////////-->
 
 
-<c-modal #verticallyCenteredModalEditGrammer alignment="center" id="verticallyCenteredModalEditGrammer">
+<c-modal [visible]="grammerEditModel" (visibleChange)="handleLiveDemoChangeEditGrammer($event)" #verticallyCenteredModalEditGrammer alignment="center" id="verticallyCenteredModalEditGrammer">
   <c-modal-header>
     <h5 cModalTitle>Edit  Grammer</h5>
-    <button [cModalToggle]="verticallyCenteredModalEditGrammer.id" cButtonClose></button>
+    <button  (click)="toggleLiveDemoEditGrammer()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
     <form (ngSubmit)="onsubmitEditGrammer()">
@@ -409,10 +409,10 @@
 <!--/////////////////////////////Add Keywords//////////////////////////////////////////////////////-->
 
 
-<c-modal #verticallyCenteredModalCreateKeyword alignment="center" id="verticallyCenteredModalCreateKeyword">
+<c-modal [visible]="KeywordAddModel" (visibleChange)="handleLiveDemoChangeAddKeyword($event)" #verticallyCenteredModalCreateKeyword alignment="center" id="verticallyCenteredModalCreateKeyword">
   <c-modal-header>
     <h5 cModalTitle>Create Keyword</h5>
-    <button [cModalToggle]="verticallyCenteredModalCreateKeyword.id" cButtonClose></button>
+    <button  (click)="toggleLiveDemoAddKeyword()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
     
@@ -451,15 +451,16 @@
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
+ 
 </c-modal>
 
 <!--//////////////////////////////////////////////////Edit keyword///////////////////////-->
 
 
-<c-modal #verticallyCenteredModalEditKeyword alignment="center" id="verticallyCenteredModalEditKeyword">
+<c-modal [visible]="KeywordEditModel" (visibleChange)="handleLiveDemoChangeEditKeyword($event)" #verticallyCenteredModalEditKeyword alignment="center" id="verticallyCenteredModalEditKeyword">
   <c-modal-header>
     <h5 cModalTitle>Modal title</h5>
-    <button [cModalToggle]="verticallyCenteredModalEditKeyword.id" cButtonClose></button>
+    <button  (click)="toggleLiveDemoEditKeyword()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
     <form (ngSubmit)="onsubmitEditKeyword()">
@@ -496,10 +497,10 @@
 <!--///////////////////////add Quiz///////////////////////-->
 
 
-<c-modal   #verticallyCenteredModalAddQuiz alignment="center" id="verticallyCenteredModalAddQuiz">
+<c-modal [visible]="QuizAddModel" (visibleChange)="handleLiveDemoChangeAddQuiz($event)"  #verticallyCenteredModalAddQuiz alignment="center" id="verticallyCenteredModalAddQuiz">
   <c-modal-header>
     <h5 cModalTitle>Add Quiz</h5>
-    <button [cModalToggle]="verticallyCenteredModalAddQuiz.id" cButtonClose></button>
+    <button  (click)="toggleLiveDemoAddQuiz()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body >
     <form  #myForm="ngForm" (ngSubmit)="onSubmitAddQuiz()" class="needs-validation" novalidate>
@@ -550,10 +551,10 @@
 <!--//////////////////////// edit Quiz////////////////////////-->
 
 
-<c-modal #verticallyCenteredModalEditQuiz alignment="center" id="verticallyCenteredModalEditQuiz">
+<c-modal [visible]="QuizEditModel" (visibleChange)="handleLiveDemoChangeEditQuiz($event)" #verticallyCenteredModalEditQuiz alignment="center" id="verticallyCenteredModalEditQuiz">
   <c-modal-header>
     <h5 cModalTitle>Modal title</h5>
-    <button [cModalToggle]="verticallyCenteredModalEditQuiz.id" cButtonClose></button>
+    <button  (click)="toggleLiveDemoEditQuiz()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
     <form>
@@ -587,10 +588,10 @@
 <!--/////////////////////////////////add story ///////////////////////////-->
 
 
-<c-modal #verticallyCenteredModalAddStory alignment="center" id="verticallyCenteredModalAddStory">
+<c-modal [visible]="StoryAddModel" (visibleChange)="handleLiveDemoChangeAddStory($event)" #verticallyCenteredModalAddStory alignment="center" id="verticallyCenteredModalAddStory">
   <c-modal-header>
     <h5 cModalTitle>Add Story</h5>
-    <button [cModalToggle]="verticallyCenteredModalAddStory.id" cButtonClose></button>
+    <button  (click)="toggleLiveDemoAddStory()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
 
@@ -627,10 +628,10 @@
 <!--///////////////////////////////////Edit story /////////////////////////////////-->
 
 
-<c-modal #verticallyCenteredModalEditStory alignment="center" id="verticallyCenteredModalEditStory">
+<c-modal [visible]="StoryEditModel" (visibleChange)="handleLiveDemoChangeEditStory($event)" #verticallyCenteredModalEditStory alignment="center" id="verticallyCenteredModalEditStory">
   <c-modal-header>
     <h5 cModalTitle>Edit Story</h5>
-    <button [cModalToggle]="verticallyCenteredModalEditStory.id" cButtonClose></button>
+    <button  (click)="toggleLiveDemoEditStory()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
     <form (ngSubmit)="onSubmitEditStory()">

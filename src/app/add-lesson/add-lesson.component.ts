@@ -177,6 +177,21 @@ totalPagesQuiz: number = 0;
   deleteGrammerstatus:boolean = false 
   deleteKeywordsstatus:boolean = false 
   deleteStorystatus:boolean = false 
+  KeywordAddModel:boolean = false
+  KeywordEditModel:boolean = false
+  KeywordDeleteModel:boolean = false
+  grammerAddModel:boolean = false
+  grammerEditModel:boolean = false
+  grammerDeleteModel:boolean = false
+  QuizAddModel:boolean = false
+  QuizEditModel:boolean = false
+  QuizDeleteModel:boolean = false
+  StoryAddModel:boolean = false
+  StoryEditModel:boolean = false
+  StoryDeleteModel:boolean = false
+  quizNumber = 1
+  CreateQuizBool:boolean = false
+  CreateStoryBool:boolean = false
   constructor(private formBuilder: FormBuilder,private router: Router,private http: HttpClient,private back:BackendServiceService) { 
     this.grammer = [];
     this.keywords = [];
@@ -253,22 +268,34 @@ totalPagesQuiz: number = 0;
 
   ngOnInit(): void {
     this.back.tutotrialid =localStorage.getItem('tutorialId')
+   this.getGrammerApi()
+   this.getKeywordApi()
+   this.getQuizApi()
+   this.getStoryApi()
    
-    this.http.get<any[]>('https://tts.eliteacademyeg.com/api/grammars/getTutorial/'+this.back.tutotrialid)
-    .subscribe(
-      (response: any[]) => {
-        console.log(response)
-        this.grammer = response;
-        this.filteredLessons = this.grammer;
-        const totalLessons = this.filterLessons().length;
-        this.totalPages = Math.ceil(totalLessons / this.pageSize);
-      
-      },
-      (error) => {
-        console.error('Error fetching lessons:', error);
-      }
-    );
-    this.http.get<any[]>('https://tts.eliteacademyeg.com/keywords/getByTutorial/'+this.back.tutotrialid)
+  
+   
+       
+  }
+
+getGrammerApi(){
+  this.http.get<any[]>('http://localhost:8080/api/grammars/getTutorial/'+this.back.tutotrialid)
+  .subscribe(
+    (response: any[]) => {
+      console.log(response)
+      this.grammer = response;
+      this.filteredLessons = this.grammer;
+      const totalLessons = this.filterLessons().length;
+      this.totalPages = Math.ceil(totalLessons / this.pageSize);
+    
+    },
+    (error) => {
+      console.error('Error fetching lessons:', error);
+    }
+  );
+}
+getKeywordApi(){
+  this.http.get<any[]>('http://localhost:8080/keywords/getByTutorial/'+this.back.tutotrialid)
     .subscribe(
       (response: any[]) => {
         console.log(response)
@@ -284,37 +311,117 @@ totalPagesQuiz: number = 0;
         console.error('Error fetching lessons:', error);
       }
     );
-    this.http.get<any>('https://tts.eliteacademyeg.com/api/v1/quiz/tutorial/'+this.back.tutotrialid)
-    .subscribe(
-      (response: any) => {
-        console.log(response)
-        debugger
-        const jsonString = JSON.stringify(response); // Convert the object to JSON
-        this.quizData = JSON.parse(jsonString); // Parse the JSON string back to an object
-        console.log("quiz parsed " + this.quizData);
-       
-    
-      
-      },
-      (error) => {
-        console.error('Error fetching lessons:', error);
+}
+getQuizApi(){
+
+  this.http.get<any>('http://localhost:8080/api/v1/quiz/tutorial/'+this.back.tutotrialid)
+  .subscribe(
+    (response: any) => {
+      console.log(response)
+      if(response != null)
+      {
+        this.CreateQuizBool = true
       }
-    );
-    this.http.get<any>('https://tts.eliteacademyeg.com/api/v1/story/tutorial/'+this.back.tutotrialid)
-        .subscribe(
-          (response: any) => {
-            debugger
-            console.log(response)
-            const jsonString = JSON.stringify(response); // Convert the object to JSON
-            this.story = JSON.parse(jsonString); // Parse the JSON string back to an object
-            console.log("story parsed " + this.story);
-          },
-          (error) => {
-            console.error('Error fetching lessons:', error);
-          }
-        );
-       
-  }
+      else{
+        this.CreateQuizBool = false
+      }
+      debugger
+      const jsonString = JSON.stringify(response); // Convert the object to JSON
+      this.quizData = JSON.parse(jsonString); // Parse the JSON string back to an object
+      console.log("quiz parsed " + this.quizData);
+     
+  
+    
+    },
+    (error) => {
+      console.error('Error fetching lessons:', error);
+    }
+  );
+}
+getStoryApi(){
+  this.http.get<any>('http://localhost:8080/api/v1/story/tutorial/'+this.back.tutotrialid)
+  .subscribe(
+    (response: any) => {
+      debugger
+      if(response != null)
+      {
+        this.CreateStoryBool = true
+      }
+      else{
+        this.CreateStoryBool = false
+      }
+      console.log(response)
+      const jsonString = JSON.stringify(response); // Convert the object to JSON
+      this.story = JSON.parse(jsonString); // Parse the JSON string back to an object
+      console.log("story parsed " + this.story);
+    },
+    (error) => {
+      console.error('Error fetching lessons:', error);
+    }
+  );
+}
+
+toggleLiveDemoAddKeyword() {
+  this.KeywordAddModel = !this.KeywordAddModel;
+}
+
+handleLiveDemoChangeAddKeyword(event: any) {
+  this.KeywordAddModel = event;
+}
+toggleLiveDemoEditKeyword() {
+  this.KeywordEditModel = !this.KeywordEditModel;
+}
+
+handleLiveDemoChangeEditKeyword(event: any) {
+  this.KeywordEditModel = event;
+}
+
+toggleLiveDemoAddQuiz() {
+  this.QuizAddModel = !this.QuizAddModel;
+}
+
+handleLiveDemoChangeAddQuiz(event: any) {
+  this.QuizAddModel = event;
+}
+toggleLiveDemoEditQuiz() {
+  this.QuizEditModel = !this.QuizEditModel;
+}
+
+handleLiveDemoChangeEditQuiz(event: any) {
+  this.QuizEditModel = event;
+}
+
+toggleLiveDemoAddGrammer() {
+  this.grammerAddModel = !this.grammerAddModel;
+}
+
+handleLiveDemoChangeAddGrammer(event: any) {
+  this.grammerAddModel = event;
+}
+toggleLiveDemoEditGrammer() {
+  this.grammerEditModel = !this.grammerEditModel;
+}
+
+handleLiveDemoChangeEditGrammer(event: any) {
+  this.grammerEditModel = event;
+}
+
+toggleLiveDemoAddStory() {
+  this.StoryAddModel = !this.StoryAddModel;
+}
+
+handleLiveDemoChangeAddStory(event: any) {
+  this.StoryAddModel = event;
+}
+toggleLiveDemoEditStory() {
+  this.StoryEditModel = !this.StoryEditModel;
+}
+
+handleLiveDemoChangeEditStory(event: any) {
+  this.StoryEditModel = event;
+}
+
+
   generateRandomNumberQuestionCode () :string {
 
     let newNumber: number;
@@ -401,7 +508,7 @@ createGrammer(){
  this.grammarData.grammar_id = 0
   console.log('Form submitted:', this.grammarData);
 debugger
-  this.http.post<any>('https://tts.eliteacademyeg.com/api/grammars', this.grammarData)
+  this.http.post<any>('http://localhost:8080/api/grammars', this.grammarData)
   .subscribe(
     response => {
       
@@ -410,19 +517,21 @@ debugger
       console.log('API Response:', response);
       // Handle response as needed
       this.addGrammerstatus = false
-      window.location.reload();
+     this.getGrammerApi()
+     this.handleLiveDemoChangeAddGrammer(false)
     },
     error => {
       console.error('API Error:', error);
       this.addGrammerstatus = false
-      window.location.reload();
+      this.getGrammerApi()
+      this.handleLiveDemoChangeAddGrammer(false)
       // Handle error as needed
     }
   );
 }
 editGrammer(id:any){
 
-this.http.get<FormData>('https://tts.eliteacademyeg.com/api/grammars/'+id)
+this.http.get<FormData>('http://localhost:8080/api/grammars/'+id)
 .subscribe(
   (response: any) => {
     console.log(response)
@@ -440,7 +549,7 @@ onsubmitEditGrammer()
 {
   this.editGrammerstatus = true
   console.log(this.formDataGrammer);
-  this.http.post<any[]>('https://tts.eliteacademyeg.com/api/grammars/delete/'+this.formDataGrammer.grammar_id,null)
+  this.http.post<any[]>('http://localhost:8080/api/grammars/delete/'+this.formDataGrammer.grammar_id,null)
 .subscribe(
   (response: any[]) => {
     console.log(response)
@@ -450,7 +559,7 @@ onsubmitEditGrammer()
     
     this.formDataGrammer.tutorialId=this.back.tutotrialid
    
-    this.http.post<any>('https://tts.eliteacademyeg.com/api/grammars', this.formDataGrammer)
+    this.http.post<any>('http://localhost:8080/api/grammars', this.formDataGrammer)
     .subscribe(
       response => {
         
@@ -459,12 +568,14 @@ onsubmitEditGrammer()
         console.log('API Response:', response);
         this.editGrammerstatus = false
         // Handle response as needed
-        window.location.reload();
+        this.getGrammerApi()
+        this.handleLiveDemoChangeEditGrammer(false)
        
       },
       error => {
         console.error('API Error:', error);
-        window.location.reload();
+        this.getGrammerApi()
+        this.handleLiveDemoChangeEditGrammer(false)
         // Handle error as needed
       }
     );
@@ -478,15 +589,17 @@ onsubmitEditGrammer()
 deleteGrammer(id:any)
 {
   this.deleteGrammerstatus = true
-this.http.post<any[]>('https://tts.eliteacademyeg.com/api/grammars/delete/'+id,null)
+this.http.post<any[]>('http://localhost:8080/api/grammars/delete/'+id,null)
 .subscribe(
   (response: any[]) => {
     console.log(response)
     this.deleteGrammerstatus = false
-    window.location.reload();
+    this.getGrammerApi()
+
   },
   (error) => {
     console.error('Error fetching lessons:', error);
+    this.getGrammerApi()
   }
 );
 
@@ -500,7 +613,7 @@ createKeyword(){
 }
 
 editKeyword(id:any){
-  this.http.get<FormData>('https://tts.eliteacademyeg.com/keywords/'+id)
+  this.http.get<FormData>('http://localhost:8080/keywords/'+id)
   .subscribe(
     (response: any) => {
       console.log(response)
@@ -514,12 +627,12 @@ editKeyword(id:any){
 }
 deleteKeyword(id:any)
 { this.deleteKeywordsstatus = true
-  this.http.post<any[]>('https://tts.eliteacademyeg.com/keywords/delete/'+id,null)
+  this.http.post<any[]>('http://localhost:8080/keywords/delete/'+id,null)
   .subscribe(
     (response: any[]) => {
       console.log(response)
       this.deleteKeywordsstatus = false
-      window.location.reload();
+      this.getKeywordApi()
     },
     (error) => {
       console.error('Error fetching lessons:', error);
@@ -530,7 +643,9 @@ deleteKeyword(id:any)
 
 }
 onsubmitCreateKeyword(){
+  debugger
   this.addKeywordsstatus = true
+ 
   if (this.keywordForm.valid) {
     // Here you can handle form submission, e.g., send data to server
     this.keywordForm.value.tutorialId = this.back.tutotrialid
@@ -538,7 +653,7 @@ onsubmitCreateKeyword(){
     this.keywordForm.value.keyFlag = true
 
     console.log('Form submitted:', this.keywordForm.value);
-    this.http.post<any>('https://tts.eliteacademyeg.com/keywords', this.keywordForm.value)
+    this.http.post<any>('http://localhost:8080/keywords', this.keywordForm.value)
     .subscribe(
       response => {
         
@@ -547,15 +662,17 @@ onsubmitCreateKeyword(){
         console.log('API Response:', response);
         // Handle response as needed
         this.addKeywordsstatus = false
-        window.location.reload();
-       
+        this.KeywordAddModel= false
+       this.getKeywordApi()
+       this.handleLiveDemoChangeAddKeyword(false)
         
       },
       error => {
         console.error('API Error:', error);
         // Handle error as needed
         this.addKeywordsstatus = false
-        window.location.reload();
+        this.getKeywordApi()
+        this.handleLiveDemoChangeAddKeyword(false)
       }
     );
   }
@@ -564,7 +681,7 @@ onsubmitEditKeyword(){
     // Call API to update data
 this.editKeywordsstatus = true
     console.log(this.FormDataKeyword);
-    this.http.post<any[]>('https://tts.eliteacademyeg.com/keywords/delete/'+this.FormDataKeyword.keyword_id,null)
+    this.http.post<any[]>('http://localhost:8080/keywords/delete/'+this.FormDataKeyword.keyword_id,null)
   .subscribe(
     (response: any[]) => {
       console.log(response)
@@ -574,7 +691,7 @@ this.editKeywordsstatus = true
       this.FormDataKeyword.keyFlag=true
       this.FormDataKeyword.tutorialId=this.back.tutotrialid
       this.FormDataKeyword.translation=''
-      this.http.post<any>('https://tts.eliteacademyeg.com/keywords', this.FormDataKeyword)
+      this.http.post<any>('http://localhost:8080/keywords', this.FormDataKeyword)
       .subscribe(
         response => {
           
@@ -583,13 +700,15 @@ this.editKeywordsstatus = true
           console.log('API Response:', response);
           // Handle response as needed
           this.editKeywordsstatus = false
-          window.location.reload();
+          this.getKeywordApi()
+          this.handleLiveDemoChangeEditKeyword(false)
         },
         error => {
           console.error('API Error:', error);
           // Handle error as needed
           this.editKeywordsstatus = false
-          window.location.reload();
+          this.getKeywordApi()
+          this.handleLiveDemoChangeEditKeyword(false)
         }
       );
     },
@@ -605,7 +724,7 @@ this.editKeywordsstatus = true
 
 editQuiz(id:any){
   this.back.quizId = id
-  this.http.get<any>('https://tts.eliteacademyeg.com/api/v1/quiz/tutorial/'+this.back.tutotrialid)
+  this.http.get<any>('http://localhost:8080/api/v1/quiz/tutorial/'+this.back.tutotrialid)
   .subscribe(
     (response: any) => {
       console.log(response)
@@ -624,17 +743,17 @@ deleteQuiz(id:any)
 {
   debugger
   this.deletequizstatus = true
-  this.http.post<any>('https://tts.eliteacademyeg.com/api/v1/quiz/delete/'+id,null)
+  this.http.post<any>('http://localhost:8080/api/v1/quiz/delete/'+id,null)
   .subscribe(
     (response: any) => {
       
       console.log(response)
       this.deletequizstatus = false
-      window.location.reload();
+     this.getQuizApi()
     },
     (error) => {
       console.error('Error fetching lessons:', error);
-      
+      this.getQuizApi()
     }
   );
 
@@ -681,7 +800,7 @@ removeChoice(index: number): void {
 onSubmitAddQuiz(): void {
   this.addquizstatus = true
 debugger
-this.http.post<any>('https://tts.eliteacademyeg.com/api/v1/quiz', this.quiz)
+this.http.post<any>('http://localhost:8080/api/v1/quiz', this.quiz)
 .subscribe(
 response => {
   
@@ -690,14 +809,15 @@ response => {
   console.log('API Response:', response);
   // Handle response as needed
   this.addquizstatus = false
-  window.location.reload();
+  this.getQuizApi()
+  this.handleLiveDemoChangeAddQuiz(false)
   
 },
 error => {
   console.error('API Error:', error);
   this.addquizstatus = false
-  window.location.reload();
-  // Handle error as needed
+  this.getQuizApi()
+  this.handleLiveDemoChangeAddQuiz(false)
 }
 );
   console.log(this.quiz);
@@ -732,18 +852,57 @@ removeQuestionEdit(index: number): void {
 }
 onSubmitEditQuiz(){
 
-this.editquizstatus = true
-this.updateQuiz(this.quizEdit.id, this.quizEdit.code, this.quizEdit.tutorialId, this.quizEdit.questions).subscribe(response => {
-debugger
-  console.log(response);
+ this.editquizstatus = true
+// this.updateQuiz(this.quizEdit.id, this.quizEdit.code, this.quizEdit.tutorialId, this.quizEdit.questions).subscribe(response => {
+// debugger
+//   console.log(response);
   
-  window.location.reload();
+//   this.getQuizApi()
+//   this.handleLiveDemoChangeEditQuiz(false)
 
-});
+// });
+this.http.post<any>('http://localhost:8080/api/v1/quiz/delete/'+this.quizEdit.id,null)
+.subscribe(
+  (response: any) => {
+    debugger
+    console.log(response)
+    this.quizEdit.id = 0
+this.quizEdit.code=this.generateRandomNumberQuestionCode()
+Array.from(this.quizEdit.questions, (question:any) => {
+  question.code = this.generateRandomNumberQuizCode()
+  question.id = 0
+})
+    this.http.post<any>('http://localhost:8080/api/v1/quiz', this.quizEdit)
+.subscribe(
+response => {
+  
+  
+  
+  console.log('API Response:', response);
+  // Handle response as needed
+  this.editquizstatus = false
+  this.getQuizApi()
+  this.handleLiveDemoChangeEditQuiz(false)
+  
+},
+error => {
+  console.error('API Error:', error);
+  this.editquizstatus = false
+  this.getQuizApi()
+  this.handleLiveDemoChangeEditQuiz(false)
+}
+);
+   
+  },
+  (error) => {
+    console.error('Error fetching lessons:', error);
+   
+  }
+);
 
 
 }
-private apiUrl = 'https://tts.eliteacademyeg.com/api/v1/quiz/update';
+private apiUrl = 'http://localhost:8080/api/v1/quiz/update';
 updateQuiz(quizId: number, code: string, tutorialId: number, questions: Question[]): Observable<any> {
 debugger
 const requestBody = {
@@ -774,7 +933,7 @@ createStory(){
 }
 editStory(id:any){
   this.back.storyid = id
-  this.http.get<FormDataStory>('https://tts.eliteacademyeg.com/api/v1/story/tutorial/'+this.back.tutotrialid)
+  this.http.get<FormDataStory>('http://localhost:8080/api/v1/story/tutorial/'+this.back.tutotrialid)
   .subscribe(
     (response: any) => {
       console.log(response)
@@ -789,12 +948,12 @@ editStory(id:any){
 }
 deleteStory(id:any)
 { this.deleteStorystatus = true
-  this.http.post<any[]>('https://tts.eliteacademyeg.com/api/v1/story/delete/'+id,null)
+  this.http.post<any[]>('http://localhost:8080/api/v1/story/delete/'+id,null)
   .subscribe(
     (response: any[]) => {
       console.log(response)
       this.deleteStorystatus = false
-      window.location.reload();
+      this.getStoryApi()
     },
     (error) => {
       console.error('Error fetching lessons:', error);
@@ -809,7 +968,7 @@ onSubmitEditStory() {
   // Call API to update data
 this.editStorystatus =true
   console.log(this.FormDataStory);
-  this.http.post<any[]>('https://tts.eliteacademyeg.com/api/v1/story/delete/'+this.back.storyid,null)
+  this.http.post<any[]>('http://localhost:8080/api/v1/story/delete/'+this.back.storyid,null)
 .subscribe(
   (response: any[]) => {
     console.log(response)
@@ -821,7 +980,7 @@ this.editStorystatus =true
    this.FormDataStory.translation = ''
    this.FormDataStory.id = 0
    debugger
-    this.http.post<any>('https://tts.eliteacademyeg.com/api/v1/story', this.FormDataStory)
+    this.http.post<any>('http://localhost:8080/api/v1/story', this.FormDataStory)
     .subscribe(
       response => {
         debugger
@@ -830,12 +989,14 @@ this.editStorystatus =true
         console.log('API Response:', response);
         // Handle response as needed
         this.editStorystatus =false
-        window.location.reload();
+        this.getStoryApi()
+        this.handleLiveDemoChangeEditStory(false)
       },
       error => {
         console.error('API Error:', error);
         this.editStorystatus =false
-        window.location.reload();
+        this.getStoryApi()
+        this.handleLiveDemoChangeEditStory(false)
         // Handle error as needed
       }
     );
@@ -852,7 +1013,7 @@ this.addStorystatus = true
   console.log(this.storyAdd);
 this.storyAdd.tutorialId = this.back.tutotrialid
   // Call your API to save the quiz data
-  this.http.post<any>('https://tts.eliteacademyeg.com/api/v1/story', this.storyAdd)
+  this.http.post<any>('http://localhost:8080/api/v1/story', this.storyAdd)
   .subscribe(
     response => {
       debugger
@@ -861,12 +1022,14 @@ this.storyAdd.tutorialId = this.back.tutotrialid
       console.log('API Response:', response);
       // Handle response as needed
       this.addStorystatus = false
-      window.location.reload();
-    },
+      this.getStoryApi()
+      this.handleLiveDemoChangeAddStory(false)
+        },
     error => {
       console.error('API Error:', error);
       this.addStorystatus = false
-      window.location.reload();
+      this.getStoryApi()
+      this.handleLiveDemoChangeAddStory(false)
       // Handle error as needed
     }
   );
