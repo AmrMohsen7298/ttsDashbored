@@ -279,7 +279,7 @@ totalPagesQuiz: number = 0;
   }
 
 getGrammerApi(){
-  this.http.get<any[]>('https://https://bel-arabi.com/api/grammars/getTutorial/'+this.back.tutotrialid)
+  this.http.get<any[]>('https://bel-arabi.com/api/grammars/getTutorial/'+this.back.tutotrialid)
   .subscribe(
     (response: any[]) => {
       console.log(response)
@@ -314,7 +314,7 @@ getKeywordApi(){
 }
 getQuizApi(){
 
-  this.http.get<any>('https://https://bel-arabi.com/api/v1/quiz/tutorial/'+this.back.tutotrialid)
+  this.http.get<any>('https://bel-arabi.com/api/v1/quiz/tutorial/'+this.back.tutotrialid)
   .subscribe(
     (response: any) => {
       console.log(response)
@@ -339,7 +339,7 @@ getQuizApi(){
   );
 }
 getStoryApi(){
-  this.http.get<any>('https://https://bel-arabi.com/api/v1/story/tutorial/'+this.back.tutotrialid)
+  this.http.get<any>('https://bel-arabi.com/api/v1/story/tutorial/'+this.back.tutotrialid)
   .subscribe(
     (response: any) => {
       debugger
@@ -508,7 +508,7 @@ createGrammer(){
  this.grammarData.grammar_id = 0
   console.log('Form submitted:', this.grammarData);
 debugger
-  this.http.post<any>('https://https://bel-arabi.com/api/grammars', this.grammarData)
+  this.http.post<any>('https://bel-arabi.com/api/grammars', this.grammarData)
   .subscribe(
     response => {
       
@@ -531,7 +531,7 @@ debugger
 }
 editGrammer(id:any){
 
-this.http.get<FormData>('https://https://bel-arabi.com/api/grammars/'+id)
+this.http.get<FormData>('https://bel-arabi.com/api/grammars/'+id)
 .subscribe(
   (response: any) => {
     console.log(response)
@@ -549,7 +549,7 @@ onsubmitEditGrammer()
 {
   this.editGrammerstatus = true
   console.log(this.formDataGrammer);
-  this.http.post<any[]>('https://https://bel-arabi.com/api/grammars/delete/'+this.formDataGrammer.grammar_id,null)
+  this.http.post<any[]>('https://bel-arabi.com/api/grammars/delete/'+this.formDataGrammer.grammar_id,null)
 .subscribe(
   (response: any[]) => {
     console.log(response)
@@ -559,7 +559,7 @@ onsubmitEditGrammer()
     
     this.formDataGrammer.tutorialId=this.back.tutotrialid
    
-    this.http.post<any>('https://https://bel-arabi.com/api/grammars', this.formDataGrammer)
+    this.http.post<any>('https://bel-arabi.com/api/grammars', this.formDataGrammer)
     .subscribe(
       response => {
         
@@ -589,7 +589,7 @@ onsubmitEditGrammer()
 deleteGrammer(id:any)
 {
   this.deleteGrammerstatus = true
-this.http.post<any[]>('https://https://bel-arabi.com/api/grammars/delete/'+id,null)
+this.http.post<any[]>('https://bel-arabi.com/api/grammars/delete/'+id,null)
 .subscribe(
   (response: any[]) => {
     console.log(response)
@@ -724,7 +724,7 @@ this.editKeywordsstatus = true
 
 editQuiz(id:any){
   this.back.quizId = id
-  this.http.get<any>('https://https://bel-arabi.com/api/v1/quiz/tutorial/'+this.back.tutotrialid)
+  this.http.get<any>('https://bel-arabi.com/api/v1/quiz/tutorial/'+this.back.tutotrialid)
   .subscribe(
     (response: any) => {
       console.log(response)
@@ -743,7 +743,7 @@ deleteQuiz(id:any)
 {
   debugger
   this.deletequizstatus = true
-  this.http.post<any>('https://https://bel-arabi.com/api/v1/quiz/delete/'+id,null)
+  this.http.post<any>('https://bel-arabi.com/api/v1/quiz/delete/'+id,null)
   .subscribe(
     (response: any) => {
       
@@ -800,7 +800,7 @@ removeChoice(index: number): void {
 onSubmitAddQuiz(): void {
   this.addquizstatus = true
 debugger
-this.http.post<any>('https://https://bel-arabi.com/api/v1/quiz', this.quiz)
+this.http.post<any>('https://bel-arabi.com/api/v1/quiz', this.quiz)
 .subscribe(
 response => {
   
@@ -861,7 +861,7 @@ onSubmitEditQuiz(){
 //   this.handleLiveDemoChangeEditQuiz(false)
 
 // });
-this.http.post<any>('https://https://bel-arabi.com/api/v1/quiz/delete/'+this.quizEdit.id,null)
+this.http.post<any>('https://bel-arabi.com/api/v1/quiz/delete/'+this.quizEdit.id,null)
 .subscribe(
   (response: any) => {
     debugger
@@ -872,7 +872,7 @@ Array.from(this.quizEdit.questions, (question:any) => {
   question.code = this.generateRandomNumberQuizCode()
   question.id = 0
 })
-    this.http.post<any>('https://https://bel-arabi.com/api/v1/quiz', this.quizEdit)
+    this.http.post<any>('https://bel-arabi.com/api/v1/quiz', this.quizEdit)
 .subscribe(
 response => {
   
@@ -902,7 +902,7 @@ error => {
 
 
 }
-private apiUrl = 'https://https://bel-arabi.com/api/v1/quiz/update';
+private apiUrl = 'https://bel-arabi.com/api/v1/quiz/update';
 updateQuiz(quizId: number, code: string, tutorialId: number, questions: Question[]): Observable<any> {
 debugger
 const requestBody = {
@@ -933,7 +933,7 @@ createStory(){
 }
 editStory(id:any){
   this.back.storyid = id
-  this.http.get<FormDataStory>('https://https://bel-arabi.com/api/v1/story/tutorial/'+this.back.tutotrialid)
+  this.http.get<FormDataStory>('https://bel-arabi.com/api/v1/story/tutorial/'+this.back.tutotrialid)
   .subscribe(
     (response: any) => {
       console.log(response)
@@ -948,7 +948,7 @@ editStory(id:any){
 }
 deleteStory(id:any)
 { this.deleteStorystatus = true
-  this.http.post<any[]>('https://https://bel-arabi.com/api/v1/story/delete/'+id,null)
+  this.http.post<any[]>('https://bel-arabi.com/api/v1/story/delete/'+id,null)
   .subscribe(
     (response: any[]) => {
       console.log(response)
@@ -968,7 +968,7 @@ onSubmitEditStory() {
   // Call API to update data
 this.editStorystatus =true
   console.log(this.FormDataStory);
-  this.http.post<any[]>('https://https://bel-arabi.com/api/v1/story/delete/'+this.back.storyid,null)
+  this.http.post<any[]>('https://bel-arabi.com/api/v1/story/delete/'+this.back.storyid,null)
 .subscribe(
   (response: any[]) => {
     console.log(response)
@@ -980,7 +980,7 @@ this.editStorystatus =true
    this.FormDataStory.translation = ''
    this.FormDataStory.id = 0
    debugger
-    this.http.post<any>('https://https://bel-arabi.com/api/v1/story', this.FormDataStory)
+    this.http.post<any>('https://bel-arabi.com/api/v1/story', this.FormDataStory)
     .subscribe(
       response => {
         debugger
@@ -1013,7 +1013,7 @@ this.addStorystatus = true
   console.log(this.storyAdd);
 this.storyAdd.tutorialId = this.back.tutotrialid
   // Call your API to save the quiz data
-  this.http.post<any>('https://https://bel-arabi.com/api/v1/story', this.storyAdd)
+  this.http.post<any>('https://bel-arabi.com/api/v1/story', this.storyAdd)
   .subscribe(
     response => {
       debugger
