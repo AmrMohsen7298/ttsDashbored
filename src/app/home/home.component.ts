@@ -87,7 +87,7 @@ filterByCategory(category:string): void{
    
   }
 getLesson(){
-  this.http.get<any[]>('/api/tutorials')
+  this.http.get<any[]>('https://bel-arabi.com/api/tutorials')
   .subscribe(
     (response: any[]) => {
       console.log(response.values)
@@ -116,7 +116,7 @@ getLesson(){
   .set('level', this.formData.level)
   .set('isPaid', this.formData.isPaid);
 
-    this.http.post<any>('/api/tutorials', formData_,{params})
+    this.http.post<any>('https://bel-arabi.com/api/tutorials', formData_,{params})
       .subscribe(
         response => {
           
