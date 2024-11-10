@@ -200,13 +200,13 @@ totalPagesQuiz: number = 0;
     this.keywordForm = this.formBuilder.group({
       keyword_id: [''],
       tutorialId: [''],
-      type: ['', Validators.required],
+      type: [''],
       description: ['', Validators.required],
       translation: [''],
       keyFlag: [''],
       audio: [''],
       text: ['', Validators.required],
-      level: ['', Validators.required],
+      level: [''],
     });
     this.quiz = {
 
@@ -295,7 +295,7 @@ getGrammerApi(){
   );
 }
 getKeywordApi(){
-  this.http.get<any[]>('/keywords/getByTutorial/'+this.back.tutotrialid)
+  this.http.get<any[]>('https://bel-arabi.com/keywords/getByTutorial/'+this.back.tutotrialid)
     .subscribe(
       (response: any[]) => {
         console.log(response)
@@ -613,7 +613,7 @@ createKeyword(){
 }
 
 editKeyword(id:any){
-  this.http.get<FormData>('/keywords/'+id)
+  this.http.get<FormData>('https://bel-arabi.com/keywords/'+id)
   .subscribe(
     (response: any) => {
       console.log(response)
@@ -627,7 +627,7 @@ editKeyword(id:any){
 }
 deleteKeyword(id:any)
 { this.deleteKeywordsstatus = true
-  this.http.post<any[]>('/keywords/delete/'+id,null)
+  this.http.post<any[]>('https://bel-arabi.com/keywords/delete/'+id,null)
   .subscribe(
     (response: any[]) => {
       console.log(response)
@@ -651,37 +651,42 @@ onsubmitCreateKeyword(){
     this.keywordForm.value.tutorialId = this.back.tutotrialid
     this.keywordForm.value.keyword_id = 0
     this.keywordForm.value.keyFlag = true
+    this.keywordForm.value.level = "U"
 
     console.log('Form submitted:', this.keywordForm.value);
-    this.http.post<any>('/keywords', this.keywordForm.value)
-    .subscribe(
-      response => {
-        
-        
-        
-        console.log('API Response:', response);
-        // Handle response as needed
-        this.addKeywordsstatus = false
-        this.KeywordAddModel= false
-       this.getKeywordApi()
-       this.handleLiveDemoChangeAddKeyword(false)
-        
-      },
-      error => {
-        console.error('API Error:', error);
-        // Handle error as needed
-        this.addKeywordsstatus = false
-        this.getKeywordApi()
-        this.handleLiveDemoChangeAddKeyword(false)
-      }
-    );
+    this.http.post<any>('https://bel-arabi.com/keywords', this.keywordForm.value)
+      .subscribe(
+        response => {
+
+
+
+          console.log('API Response:', response);
+          // Handle response as needed
+          this.addKeywordsstatus = false
+          this.KeywordAddModel = false
+          this.getKeywordApi()
+          this.handleLiveDemoChangeAddKeyword(false)
+
+        },
+        error => {
+          console.error('API Error:', error);
+          // Handle error as needed
+          this.addKeywordsstatus = false
+          this.getKeywordApi()
+          this.handleLiveDemoChangeAddKeyword(false)
+        }
+      );
+  }
+  else {
+    this.addKeywordsstatus = false
+    this.handleLiveDemoChangeAddKeyword(false)
   }
 }
 onsubmitEditKeyword(){
     // Call API to update data
 this.editKeywordsstatus = true
     console.log(this.FormDataKeyword);
-    this.http.post<any[]>('/keywords/delete/'+this.FormDataKeyword.keyword_id,null)
+    this.http.post<any[]>('https://bel-arabi.com/keywords/delete/'+this.FormDataKeyword.keyword_id,null)
   .subscribe(
     (response: any[]) => {
       console.log(response)
@@ -690,8 +695,9 @@ this.editKeywordsstatus = true
       this.FormDataKeyword.audio=''
       this.FormDataKeyword.keyFlag=true
       this.FormDataKeyword.tutorialId=this.back.tutotrialid
-      this.FormDataKeyword.translation=''
-      this.http.post<any>('/keywords', this.FormDataKeyword)
+      this.FormDataKeyword.translation = ''
+      this.FormDataKeyword.level="U"
+      this.http.post<any>('https://bel-arabi.com/keywords', this.FormDataKeyword)
       .subscribe(
         response => {
           
