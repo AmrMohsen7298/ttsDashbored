@@ -428,7 +428,7 @@ handleLiveDemoChangeEditStory(event: any) {
 
     do {
 
-      this.back.questionCode= newNumber = Math.floor(Math.random() * 100); // generate a random number between 0 and 99
+      this.back.questionCode= newNumber = Math.floor(Math.random() * 10000000); // generate a random number between 0 and 99
 
     } while (!this.randomNumbersQuestionCode.add(newNumber)); // check if the number is already in the set
     return newNumber.toString()
