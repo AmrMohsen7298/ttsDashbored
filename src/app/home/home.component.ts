@@ -11,6 +11,7 @@ import { FormBuilder } from '@angular/forms';
 })
 
 export class HomeComponent {
+  getTutorials: boolean = false
   formData = {
    
     title: '',
@@ -18,6 +19,7 @@ export class HomeComponent {
     level: '',
     isPaid: false,
     image: null as any
+
   };
   searchText: string = '';
   currentPage: number = 1;
@@ -86,15 +88,18 @@ filterByCategory(category:string): void{
 
    
   }
-getLesson(){
+  getLesson() {
+  this.getTutorials = true
   this.http.get<any[]>('https://bel-arabi.com/api/tutorials')
   .subscribe(
     (response: any[]) => {
       console.log(response.values)
       this.lessons = response;
+
       this.filteredLessons = this.lessons;
       const totalLessons = this.filterLessons().length;
       this.totalPages = Math.ceil(totalLessons / this.pageSize);
+      this.getTutorials = false
     },
     (error) => {
       console.error('Error fetching lessons:', error);

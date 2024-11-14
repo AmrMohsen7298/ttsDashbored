@@ -1,67 +1,71 @@
 <div class="container mt-5">
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Search lessons..." [(ngModel)]="searchText">
-      <div class="input-group-append">
-        <button cButton color="primary">Search</button>
-      </div>
-      <div class="input-group-append ml-2">
-        <c-dropdown variant="btn-group">
-          <button cButton cDropdownToggle>
-            Filter by Category
-          </button>
-          <ul cDropdownMenu>
-            <li><a cDropdownItem (click)="filterByCategory('All Categories')">All Categories</a></li>
-            <li><a cDropdownItem (click)="filterByCategory('Category 1')">Category 1</a></li>
-            <li><a cDropdownItem (click)="filterByCategory('Category 2')">Category 2</a></li>
-          </ul>
-        </c-dropdown>
-      </div>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Search lessons..." [(ngModel)]="searchText">
+    <div class="input-group-append">
+      <button cButton color="primary">Search</button>
     </div>
-    <div class="row mb-3">
-      <div class="col-md-4">
-      
-        <button [cModalToggle]="verticallyCenteredModal.id" cButton color="primary" >Create Lesson</button>
-      </div>
-    </div>
-  
-    <div class="row">
-      <ng-container *ngFor="let lesson of filterLessons()">
-        <div class="col-md-4 mb-4">
-          <c-card>
-            <img cCardImg="top" [src]="'data:image/jpg;base64,' + lesson.image" alt="Lesson Image">
-            <c-card-body>
-              <h5 cCardTitle>{{ lesson.title }}</h5>
-              <p cCardText>
-                {{ lesson.description }}
-              </p>
-              <button cButton color="primary" (click)="addLesson(lesson.id)">Go</button>
-            </c-card-body>
-          </c-card>
-        </div>
-      </ng-container>
-      <div *ngIf="filterLessons().length == 0" class="col-md-12 text-center">
-        <p>No lessons found</p>
-      </div>
-    </div>
-
-    <c-pagination aria-label="Page navigation example">
-        <ul class="pagination justify-content-center mt-4">
-          <li class="page-item" [class.disabled]="currentPage === 1">
-            <a class="page-link" href="/Home" (click)="prevPage()" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li class="page-item" *ngFor="let page of getPages()" [class.active]="page === currentPage">
-            <a class="page-link" href="/Home" (click)="currentPage = page">{{ page }}</a>
-          </li>
-          <li class="page-item" [class.disabled]="currentPage === totalPages">
-            <a class="page-link" href="/Home" (click)="nextPage()" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
+    <div class="input-group-append ml-2">
+      <c-dropdown variant="btn-group">
+        <button cButton cDropdownToggle>
+          Filter by Category
+        </button>
+        <ul cDropdownMenu>
+          <li><a cDropdownItem (click)="filterByCategory('All Categories')">All Categories</a></li>
+          <li><a cDropdownItem (click)="filterByCategory('Category 1')">Category 1</a></li>
+          <li><a cDropdownItem (click)="filterByCategory('Category 2')">Category 2</a></li>
         </ul>
-    </c-pagination>
+      </c-dropdown>
+    </div>
   </div>
+  <div class="row mb-3">
+    <div class="col-md-4">
+
+      <button [cModalToggle]="verticallyCenteredModal.id" cButton color="primary">Create Lesson</button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!getTutorials">
+    <ng-container *ngFor="let lesson of filterLessons()">
+      <div class="col-md-4 mb-4">
+        <c-card>
+          <img cCardImg="top" [src]="'data:image/jpg;base64,' + lesson.image" alt="Lesson Image">
+          <c-card-body>
+            <h5 cCardTitle>{{ lesson.title }}</h5>
+            <p cCardText>
+              {{ lesson.description }}
+            </p>
+            <button cButton color="primary" (click)="addLesson(lesson.id)">Go</button>
+          </c-card-body>
+        </c-card>
+      </div>
+    </ng-container>
+    <div *ngIf="filterLessons().length == 0" class="col-md-12 text-center">
+      <p>No lessons found</p>
+    </div>
+  </div>
+  <div *ngIf="getTutorials" class="text-center">
+    <div class="spinner-border" role="getTutorials">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <c-pagination aria-label="Page navigation example">
+    <ul class="pagination justify-content-center mt-4">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" href="/Home" (click)="prevPage()" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item" *ngFor="let page of getPages()" [class.active]="page === currentPage">
+        <a class="page-link" href="/Home" (click)="currentPage = page">{{ page }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" href="/Home" (click)="nextPage()" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </c-pagination>
+</div>
 
 
  
