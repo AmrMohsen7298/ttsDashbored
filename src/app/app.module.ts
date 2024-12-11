@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 import { 
 
   ButtonModule,
@@ -38,6 +39,7 @@ LoginComponent
   ],
   imports: [
     CommonModule,
+    ToastrModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackendServiceService } from '../backend-service.service';
 import { FormBuilder } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +22,12 @@ export class HomeComponent {
     image: null as any
 
   };
+  
+
+
+  // Define the levels for the dropdown
+
+  levels = ['اولي ابتدائي', 'ثانية ابتدائي', 'ثالثة ابتدائي', 'رابعة ابتدائي', 'خامسة ابتدائي','سادسة ابتدائي'];
   searchText: string = '';
   currentPage: number = 1;
   pageSize: number = 3; // Change this value as needed
@@ -30,7 +37,7 @@ selectedCategory: string = '';
   totalPages: number = 0;
   homeModel:boolean = false
   // Pagination methods
-  constructor(private formBuilder: FormBuilder,private router: Router,private http: HttpClient,private back:BackendServiceService) { 
+  constructor(private toastr: ToastrService,private formBuilder: FormBuilder,private router: Router,private http: HttpClient,private back:BackendServiceService) {
     this.lessons = [];
    
   }
@@ -106,7 +113,27 @@ filterByCategory(category:string): void{
     }
   );
 }
+  deleteLesson() {
+    this.http.post<any[]>('https://bel-arabi.com/api/tutorials/delete/' + this.back.tutotrialid, null)
+      .subscribe(
+        (response: any[]) => {
+          console.log(response)
+         
+          this.getLesson()
+        },
+        (error) => {
+          debugger
+          this.toastr.error('you must delete the content first!', 'Error', {
 
+            positionClass: 'toast-top-full-width', // You can change the position
+
+            timeOut: 4000, // Duration in milliseconds
+
+          });
+          console.error('Error fetching lessons:', error);
+          
+        })
+  }
 
   onSubmit() {
     // Handle form submission here

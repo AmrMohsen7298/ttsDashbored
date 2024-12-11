@@ -652,6 +652,7 @@ onsubmitCreateKeyword(){
     this.keywordForm.value.keyword_id = 0
     this.keywordForm.value.keyFlag = true
     this.keywordForm.value.level = "U"
+    this.keywordForm.value.type = ""
 
     console.log('Form submitted:', this.keywordForm.value);
     this.http.post<any>('https://bel-arabi.com/keywords', this.keywordForm.value)
