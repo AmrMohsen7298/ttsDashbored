@@ -95,9 +95,14 @@ filterByCategory(category:string): void{
 
   ngOnInit(): void {
     this.back.isLogin = true
-    
-    this.stringPage = localStorage.getItem('page')
-    this.page = parseInt(this.stringPage)
+    if (this.page == null) {
+      this.page = 0
+    }
+    else {
+      this.stringPage = localStorage.getItem('page')
+      this.page = parseInt(this.stringPage)
+
+    }
     this.getLesson()
 
    
