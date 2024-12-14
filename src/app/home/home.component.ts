@@ -91,7 +91,7 @@ selectedCategory: string = '';
           //const totalLessons = this.filterLessons().length;
           //this.totalPages = Math.ceil(totalLessons / this.pageSize);
           this.pageList = Math.ceil(this.numPage / 10);
-          this.pagesArray = Array.from({ length: this.pageList }, (_, i) => i + 1);
+          this.pagesArray = Array.from({ length: this.pageList }, (_, i) => i);
         },
         (error) => {
           console.error('Error fetching lessons:', error);
