@@ -26,11 +26,14 @@ export class HomeComponent {
 
 
   // Define the levels for the dropdown
-  page =0
+  page = 0
+  numPage: any
+  pagesArray:any
  stringPage :any
   levels = ['اولي ابتدائي', 'ثانية ابتدائي', 'ثالثة ابتدائي', 'رابعة ابتدائي', 'خامسة ابتدائي','سادسة ابتدائي'];
   searchText: string = '';
   currentPage: number = 1;
+  pageList:any
   pageSize: number = 3; // Change this value as needed
   lessons: any[]  ;
 filteredLessons: any[] = [];
@@ -45,7 +48,12 @@ selectedCategory: string = '';
   toggleLiveDemo() {
     this.homeModel = !this.homeModel;
   }
-  
+  getSpescficPage(page: any) {
+    debugger
+    localStorage.setItem('page', page.toString());
+    this.getLesson()
+
+  }
   handleLiveDemoChange(event: any) {
     this.homeModel = event;
   }
@@ -70,10 +78,28 @@ selectedCategory: string = '';
       lesson.title.toLowerCase().includes(this.searchText.toLowerCase())
     );
   }
-  getPages(): number[] {
-    const totalLessons = this.filterLessons().length;
-    const totalPages = Math.ceil(totalLessons / this.pageSize);
-    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  getPages(){
+     
+    this.http.get<any>(`https://bel-arabi.com/api/tutorials/Size`)
+      .subscribe(
+        (response: any) => {
+          debugger
+          console.log("size response"+response)
+         this.numPage = response
+
+          //this.filteredLessons = this.lessons;
+          //const totalLessons = this.filterLessons().length;
+          //this.totalPages = Math.ceil(totalLessons / this.pageSize);
+          this.pageList = Math.ceil(this.numPage / 10);
+          this.pagesArray = Array.from({ length: this.pageList }, (_, i) => i + 1);
+        },
+        (error) => {
+          console.error('Error fetching lessons:', error);
+        }
+    );
+    
+    
+
   }
 addLesson(id:any){
    this.back.tutotrialid = id
@@ -104,15 +130,17 @@ filterByCategory(category:string): void{
 
     }
     this.getLesson()
-
+    this.getPages();
    
   }
   getLesson() {
     this.getTutorials = true
-    
+    debugger
+    this.stringPage = localStorage.getItem('page')
+    this.page = parseInt(this.stringPage)
     
     console.log(this.page+" page")
-    this.http.get<any[]>(`https://bel-arabi.com/api/tutorials?page=${this.page}&size=9`)
+    this.http.get<any[]>(`https://bel-arabi.com/api/tutorials?page=${this.page}&size=10`)
   .subscribe(
     (response: any[]) => {
       console.log(response.values)

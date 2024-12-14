@@ -56,8 +56,8 @@
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
-      <li class="page-item" >
-        <a class="page-link" >{{ page }}</a>
+      <li class="page-item"  *ngFor ="let page of pagesArray" >
+        <a class="page-link" (click)="getSpescficPage(page)">{{ page }}</a>
       </li>
       <li class="page-item" [class.disabled]="currentPage === totalPages">
         <a class="page-link" href="/Home" (click)="nextPage()" aria-label="Next">
