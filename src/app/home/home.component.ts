@@ -26,12 +26,13 @@ export class HomeComponent {
 
 
   // Define the levels for the dropdown
-
+  page =0
+ stringPage :any
   levels = ['اولي ابتدائي', 'ثانية ابتدائي', 'ثالثة ابتدائي', 'رابعة ابتدائي', 'خامسة ابتدائي','سادسة ابتدائي'];
   searchText: string = '';
   currentPage: number = 1;
   pageSize: number = 3; // Change this value as needed
-  lessons: any[] ;
+  lessons: any[]  ;
 filteredLessons: any[] = [];
 selectedCategory: string = '';
   totalPages: number = 0;
@@ -39,7 +40,7 @@ selectedCategory: string = '';
   // Pagination methods
   constructor(private toastr: ToastrService,private formBuilder: FormBuilder,private router: Router,private http: HttpClient,private back:BackendServiceService) {
     this.lessons = [];
-   
+    this.page = 0
   }
   toggleLiveDemo() {
     this.homeModel = !this.homeModel;
@@ -49,15 +50,18 @@ selectedCategory: string = '';
     this.homeModel = event;
   }
   nextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
+    this.page += 1
+    localStorage.setItem('page', this.page.toString());
+    this.getLesson()
   }
 
   prevPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
+    if (this.page != 0) {
+      this.page -= 1
+      localStorage.setItem('page', this.page.toString());
+      this.getLesson()
     }
+   
   }
 
   // Filtering method
@@ -90,22 +94,28 @@ filterByCategory(category:string): void{
 
 
   ngOnInit(): void {
-    this.back.isLogin =  true
-   this.getLesson()
+    this.back.isLogin = true
+    
+    this.stringPage = localStorage.getItem('page')
+    this.page = parseInt(this.stringPage)
+    this.getLesson()
 
    
   }
   getLesson() {
-  this.getTutorials = true
-  this.http.get<any[]>('https://bel-arabi.com/api/tutorials')
+    this.getTutorials = true
+    
+    
+    console.log(this.page+" page")
+    this.http.get<any[]>(`https://bel-arabi.com/api/tutorials?page=${this.page}&size=9`)
   .subscribe(
     (response: any[]) => {
       console.log(response.values)
-      this.lessons = response;
+      this.lessons = response
 
-      this.filteredLessons = this.lessons;
-      const totalLessons = this.filterLessons().length;
-      this.totalPages = Math.ceil(totalLessons / this.pageSize);
+      //this.filteredLessons = this.lessons;
+      //const totalLessons = this.filterLessons().length;
+      //this.totalPages = Math.ceil(totalLessons / this.pageSize);
       this.getTutorials = false
     },
     (error) => {
