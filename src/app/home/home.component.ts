@@ -98,7 +98,7 @@ filterByCategory(category:string): void{
     if (this.page == null) {
       this.page = 0
     }
-    else {
+    else if(this.page >=0){
       this.stringPage = localStorage.getItem('page')
       this.page = parseInt(this.stringPage)
 
