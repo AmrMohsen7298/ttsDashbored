@@ -137,7 +137,13 @@ filterByCategory(category:string): void{
     this.getTutorials = true
     debugger
     this.stringPage = localStorage.getItem('page')
+    if (this.stringPage == null) {
+      this.page = 0
+    }
+    else {
+
     this.page = parseInt(this.stringPage)
+    }
     
     console.log(this.page+" page")
     this.http.get<any[]>(`https://bel-arabi.com/api/tutorials?page=${this.page}&size=10`)
