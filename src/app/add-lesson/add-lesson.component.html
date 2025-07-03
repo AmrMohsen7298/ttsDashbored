@@ -1,4 +1,4 @@
-
+  
 <c-container>
     <c-tabs [activeItemKey]=0>
         <c-tabs-list variant="pills">
@@ -251,54 +251,59 @@
               <br>
               <!-- Lesson cards -->
               <div class="row">
-                <ng-container >
+                <ng-container>
                   <div class="col-md-12">
-          
-                      <h1>Story List</h1>
-                
-                      <table class="table table-striped">
-                
-                        <thead>
-                
-                          <tr>
-                
-                              <th> ID</th>
-                            <th>Tutorial ID</th>
-                
-                            <th>Name</th>
-                            <th>Paragraph <th>
-                            <th>translation <th>
-                
-                
-                            
-                            
-                
-                          </tr>
-                
-                        </thead>
-                
-                        <tbody>
-                
-                          <tr >
-                
-                            <td>{{ story?.id }}</td>
-                            <td>{{ story?.tutorialId }}</td>
-                
-                            <td>{{ story?.name }}</td>
-                
-                            <td>{{ story?.paragraph }}</td>
-                            <td>{{ story?.translation }}</td>
-                
-                            <td> <button [cModalToggle]="verticallyCenteredModalEditStory.id" cButton (click)="editStory(story.id )">Edit</button></td>
-                            <td> <button class="btn btn-danger" type="button" (click)="deleteStory(story.id)">Delete</button></td>
-                
-                          </tr>
-                
-                        </tbody>
-                
-                      </table>
-                
-                    </div>
+
+                    <h1>Story List</h1>
+
+                    <table class="table table-striped" *ngIf="CreateStoryBool" >
+
+                      <thead>
+
+                        <tr>
+
+                          <th> ID</th>
+                          <th>Tutorial ID</th>
+
+                          <th>Name</th>
+                          <th>Paragraph
+                          <th>
+                          <th>translation
+                          <th>
+
+
+
+
+
+                        </tr>
+
+                      </thead>
+
+                      <tbody>
+
+                        <tr>
+
+                          <td>{{ story?.id }}</td>
+                          <td>{{ story?.tutorialId }}</td>
+
+                          <td>{{ story?.name }}</td>
+
+                          <td>{{ story?.paragraph }}</td>
+                          <td>{{ story?.translation }}</td>
+
+                          <td> <button [cModalToggle]="verticallyCenteredModalEditStory.id" cButton (click)="editStory(story.id )">Edit</button></td>
+                          <td> <button class="btn btn-danger" type="button" (click)="deleteStory(story.id)">Delete</button></td>
+
+                        </tr>
+
+                      </tbody>
+
+                    </table>
+
+                  </div>
+                  <div *ngIf="!CreateStoryBool" class="col-md-12 text-center">
+                    <p>No lessons found</p>
+                  </div>
                 </ng-container>
               
               </div>
