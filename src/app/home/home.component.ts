@@ -30,7 +30,7 @@ export class HomeComponent {
   numPage: any
   pagesArray:any
  stringPage :any
-  levels = ['اولي ابتدائي', 'ثانية ابتدائي', 'ثالثة ابتدائي', 'رابعة ابتدائي', 'خامسة ابتدائي','سادسة ابتدائي'];
+  levels = ['مستوي اول', 'مستوي الثاني', 'مستوي الثالث', 'مستوي الرابع', 'مستوي الخامس','مستوي السادس'];
   searchText: string = '';
   currentPage: number = 1;
   pageList:any
@@ -190,13 +190,38 @@ filterByCategory(category:string): void{
     const formData_ = new FormData();
     
     formData_.append('file', this.formData.image); // Assuming this.formData.imageFile is the file blob
-    
+    if (this.formData.level == 'مستوي اول') {
+      this.formData.level = 'اولي ابتدائي'
+
+    }
+    if (this.formData.level == 'مستوي الثاني') {
+      this.formData.level = 'ثانية ابتدائي'
+
+    }
+    if (this.formData.level == 'مستوي الثالث') {
+      this.formData.level = 'ثالثة ابتدائي'
+
+    }
+    if (this.formData.level == 'مستوي الرابع') {
+      this.formData.level = 'رابعة ابتدائي'
+
+    }
+    if (this.formData.level == 'مستوي الخامس') {
+      this.formData.level = 'خامسة ابتدائي'
+
+    }
+    if (this.formData.level == 'مستوي السادس') {
+      this.formData.level = 'سادسة ابتدائي'
+
+    }
     const params = new HttpParams()
   .set('title', this.formData.title)
-  .set('description', this.formData.description)
-  .set('level', this.formData.level)
-  .set('isPaid', this.formData.isPaid);
+      .set('description', this.formData.description)
+      .set('level', this.formData.level)
+      .set('isPaid', this.formData.isPaid);
 
+   
+    console.log(params)
     this.http.post<any>('https://bel-arabi.com/api/tutorials', formData_,{params})
       .subscribe(
         response => {
