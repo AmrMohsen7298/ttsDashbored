@@ -71,69 +71,74 @@
 
  
 
-<c-modal [visible]="homeModel" (visibleChange)="handleLiveDemoChange($event)"  #verticallyCenteredModal alignment="center" id="verticallyCenteredModal">
+<c-modal [visible]="homeModel" (visibleChange)="handleLiveDemoChange($event)" #verticallyCenteredModal alignment="center" id="verticallyCenteredModal">
   <c-modal-header>
     <h5 cModalTitle>Lesson Input Form</h5>
     <button (click)="toggleLiveDemo()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
     <form #myForm="ngForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
-        <div class="mb-3">
-          <label for="title" class="form-label">Title</label>
-          <input type="text" class="form-control" id="title" name="title" [(ngModel)]="formData.title" required #title="ngModel">
-          <div *ngIf="title.invalid && (title.dirty || title.touched)" class="invalid-feedback">
-            
-              Title is required.
-          
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" name="title" [(ngModel)]="formData.title" required #title="ngModel">
+        <div *ngIf="title.invalid && (title.dirty || title.touched)" class="invalid-feedback">
+
+          Title is required.
+
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" [(ngModel)]="formData.description" required #description="ngModel"></textarea>
+        <div *ngIf="description.invalid && (description.dirty || description.touched)" class="invalid-feedback">
+
+          Description is required.
+
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="level" class="form-label">Level</label>
+          <!--<input type="text" class="form-control" id="level" name="level" [(ngModel)]="formData.level" required #level="ngModel">-->
+          <select class="form-control" id="level" name="level" [(ngModel)]="formData.level" required #level="ngModel">
+
+            <option value="" disabled>Select Level</option> <!-- Placeholder option -->
+
+            <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
+
+          </select>
+          <div *ngIf="level.invalid && (level.dirty || level.touched)" class="invalid-feedback">
+
+            Level is required.
+
           </div>
         </div>
-
-        <div class="mb-3">
-          <label for="description" class="form-label">Description</label>
-          <textarea class="form-control" id="description" name="description" [(ngModel)]="formData.description" required #description="ngModel"></textarea>
-          <div *ngIf="description.invalid && (description.dirty || description.touched)" class="invalid-feedback">
-            
-              Description is required.
-            
+        <div class="col-md-6">
+          <div class="form-check mt-md-4">
+            <input type="checkbox" class="form-check-input" id="isPaid" name="isPaid" [(ngModel)]="formData.isPaid">
+            <label class="form-check-label" for="isPaid">Is Paid?</label>
           </div>
         </div>
+      </div>
 
-        <div class="row mb-3">
-          <div class="col-md-6">
-            <label for="level" class="form-label">Level</label>
-            <!--<input type="text" class="form-control" id="level" name="level" [(ngModel)]="formData.level" required #level="ngModel">-->
-            <select class="form-control" id="level" name="level" [(ngModel)]="formData.level" required #level="ngModel">
-
-              <option value="" disabled>Select Level</option> <!-- Placeholder option -->
-
-              <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
-
-            </select>
-            <div *ngIf="level.invalid && (level.dirty || level.touched)" class="invalid-feedback">
-
-              Level is required.
-
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-check mt-md-4">
-              <input type="checkbox" class="form-check-input" id="isPaid" name="isPaid" [(ngModel)]="formData.isPaid">
-              <label class="form-check-label" for="isPaid">Is Paid?</label>
-            </div>
-          </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Image</label>
+        <input type="file" class="form-control" id="image" name="image" (change)="onFileChange($event)" accept="image/*" required>
+        <div class="invalid-feedback">
+          Please choose an image.
         </div>
+      </div>
 
-        <div class="mb-3">
-          <label for="image" class="form-label">Image</label>
-          <input type="file" class="form-control" id="image" name="image" (change)="onFileChange($event)" accept="image/*" required>
-          <div class="invalid-feedback">
-            Please choose an image.
-          </div>
-        </div>
-
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary" >Submit</button>
-        </div>
-      </form>
+      <div class="text-center">
+        <button *ngIf="!addlessonstatus" type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
   </c-modal-body>
+  <div *ngIf="addlessonstatus" class="text-center">
+    <div class="spinner-border" role="addlessonstatus">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 </c-modal>

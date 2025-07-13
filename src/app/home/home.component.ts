@@ -26,6 +26,7 @@ export class HomeComponent {
 
 
   // Define the levels for the dropdown
+  addlessonstatus: boolean = false
   page = 0
   numPage: any
   pagesArray:any
@@ -186,6 +187,7 @@ filterByCategory(category:string): void{
 
   onSubmit() {
     // Handle form submission here
+    this.addlessonstatus = true
     console.log(this.formData);
     const formData_ = new FormData();
     
